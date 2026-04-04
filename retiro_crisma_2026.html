@@ -70,6 +70,15 @@ body::before {
 /* MAIN */
 .main { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
 
+/* PAGE TABS */
+.page-tabs { display: flex; gap: 0; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--cream); margin-bottom: 1.5rem; }
+.page-tab { padding: 10px 18px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; border: none; background: transparent; color: var(--muted); transition: all 0.2s; border-right: 1px solid var(--line); font-family: 'DM Sans', sans-serif; flex: 1; }
+.page-tab:last-child { border-right: none; }
+.page-tab:hover { background: var(--gold-pale); color: var(--ink); }
+.page-tab.active { background: var(--accent); color: #fff; }
+.page { display: none; }
+.page.active { display: block; }
+
 /* CONTROLS */
 .controls { display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 2.5rem; }
 .control-group { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
@@ -145,6 +154,19 @@ body.hide-general .ecell { border-left: none; }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
+/* DOC */
+.doc-wrap { border: 1px solid var(--line); border-radius: var(--r); background: #fff; padding: 1.25rem; }
+.doc-intro { padding: 1rem; border: 1px solid rgba(11,27,47,0.1); border-radius: var(--r); background: linear-gradient(180deg, rgba(238,242,249,0.7), rgba(251,252,255,1)); margin-bottom: 1.25rem; }
+.doc-intro p { font-size: 14px; line-height: 1.6; color: var(--muted); }
+.doc-section { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 600; letter-spacing: -0.01em; margin-top: 1.4rem; margin-bottom: 0.35rem; color: var(--ink); }
+.doc-day { font-size: 11px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-top: 0.75rem; margin-bottom: 0.6rem; }
+.doc-cards { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 0.75rem; }
+.doc-card { border: 1px solid rgba(11,27,47,0.12); border-radius: var(--r); padding: 12px 12px; background: #fff; }
+.doc-time { font-size: 12px; font-weight: 800; color: var(--muted); letter-spacing: 0.02em; }
+.doc-title { margin-top: 6px; font-size: 15px; font-weight: 800; line-height: 1.3; color: var(--ink); }
+.doc-desc { margin-top: 8px; font-size: 14px; line-height: 1.55; color: var(--muted); }
+.doc-desc br, .doc-title br { line-height: 1.4; }
+
 /* EMPTY */
 .empty-state { text-align: center; padding: 4rem 1rem; }
 .empty-icon { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--gold-light); line-height: 1; margin-bottom: 1rem; }
@@ -165,6 +187,8 @@ button:focus-visible {
   .control-label { width: 100%; min-width: 0; }
   .day-tabs, .toggle-pair { width: 100%; }
   .day-tab { flex: 1; padding: 10px 12px; }
+  .page-tabs { width: 100%; }
+  .page-tab { padding: 10px 10px; }
   .stat-bar { gap: 1rem; padding: 0.9rem 1rem; }
   .stat-team { margin-left: 0; text-align: left; }
   .schedule-table thead { display: none; }
@@ -179,6 +203,8 @@ button:focus-visible {
   .cell-main { font-size: 15px; }
   body.hide-general .time-cell { border-bottom: none; }
   body.hide-general .ecell { border-top: none; }
+  .doc-wrap { padding: 1rem; }
+  .doc-section { font-size: 1.7rem; }
 }
 </style>
 </head>
@@ -194,6 +220,12 @@ button:focus-visible {
 </header>
 
 <main class="main">
+  <div class="page-tabs" role="tablist" aria-label="Seções">
+    <button class="page-tab active" id="tabCronograma" role="tab" aria-selected="true" aria-controls="pageCronograma">Cronograma</button>
+    <button class="page-tab" id="tabAtividades" role="tab" aria-selected="false" aria-controls="pageAtividades">Atividades dos crismandos</button>
+  </div>
+
+  <section class="page active" id="pageCronograma" role="tabpanel" aria-labelledby="tabCronograma">
   <div class="controls">
     <div class="control-group">
       <span class="control-label">Dia</span>
@@ -241,6 +273,247 @@ button:focus-visible {
       <tbody id="schedule"></tbody>
     </table>
   </div>
+  </section>
+
+  <section class="page" id="pageAtividades" role="tabpanel" aria-labelledby="tabAtividades">
+    <div class="doc-wrap">
+      <div class="doc-intro">
+        <p>RETIRO PARA O CRISMA 2026</p>
+        <p>Programação Geral do Retiro “Manda teu fogo”</p>
+        <p>Este documento apresenta a sequência de atividades dia a dia, com horários e tópicos, destinada a ser a visão geral do retiro.</p>
+      </div>
+
+      <h2 class="doc-section">DIA 1 - Reconhecer, decidir e começar de novo.</h2>
+      <h3 class="doc-day">Sexta</h3>
+      <div class="doc-cards">
+        <article class="doc-card">
+          <div class="doc-time">19:00–19:45</div>
+          <div class="doc-title">Chegada e acolhimento na paróquia<br>+<br>Lanche</div>
+          <div class="doc-desc">Recepção e primeiro contato<br>Observação: Momento de recepção, registro e organização inicial, criando um ambiente acolhedor.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">19:45–20:00</div>
+          <div class="doc-title">Palavra de acolhida, oração inicial e leitura Bíblica</div>
+          <div class="doc-desc">A tentação de Jesus no deserto- Mt 4:1–11<br>Observação: Primeiro contato com a espiritualidade do retiro. Leitura bíblica que nos recorda que, assim como Jesus foi conduzido ao deserto para ser provado, nós também iniciamos agora nossa caminhada.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">20:00–21:30</div>
+          <div class="doc-title">Deslocamento</div>
+          <div class="doc-desc">Deslocamento e expectativa<br>Observação: Tempo de viagem para interação e aproveitar para passarmos algumas orientações, como as regras do local e política de pontuação das equipes.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">21:30–21:45</div>
+          <div class="doc-title">Caminhada do desafio e tentação</div>
+          <div class="doc-desc">Ao chegarem à casa de retiro, os adolescentes receberão vendas para os olhos e serão conduzidos por um percurso simbólico que representa as tentações e influências negativas presentes na vida. Durante o trajeto, ouvirão diferentes vozes e situações que provocam reflexão. Ao final, serão direcionados à capela, onde permanecerão ainda vendados até o início da condução do palestrante.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">21:45–23:15</div>
+          <div class="doc-title">Pregação - Vícios e sexualidade</div>
+          <div class="doc-desc">Momento conduzido pelo pregador, iniciando com um breve louvor e um convite à “virada de chave” na vida dos jovens. A partir desse ponto, será feita uma reflexão dinâmica sobre sexualidade e vícios, destacando a importância das escolhas e suas consequências. Neste momento, será introduzido também o primeiro dom do Espírito Santo, a Sabedoria, convidando os jovens a pedirem a Deus a graça de discernir o que é bom e escolher caminhos que conduzam a uma vida orientada pelos valores cristãos.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">23:15–23:45</div>
+          <div class="doc-title">Ceia</div>
+          <div class="doc-desc">Momento simples de partilha, com bolachas servidas em bandejas. No corredor central, estarão disponíveis chá e água para os participantes.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">23:45–00:30</div>
+          <div class="doc-title">Louvor “acalma seu coração” - Entrada do Santíssimo Sacramento</div>
+          <div class="doc-desc">Momento de louvor com o canto “Acalma o Seu Coração”, seguido da entrada do Santíssimo Sacramento. Será um breve tempo de adoração, oração e encontro com Jesus, encerrando espiritualmente o primeiro dia do retiro com um “boa noite” a Jesus.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">00:30–—</div>
+          <div class="doc-title">Banho e repouso</div>
+          <div class="doc-desc">Encerramento do primeiro dia<br>Observação: Direcionamento para os quartos, incentivando o silêncio e a oração pessoal.</div>
+        </article>
+      </div>
+
+      <h2 class="doc-section">DIA 2 - Ser transformado pelo fogo do Espírito Santo.</h2>
+      <h3 class="doc-day">Sábado</h3>
+      <div class="doc-cards">
+        <article class="doc-card">
+          <div class="doc-time">06:45–07:30</div>
+          <div class="doc-title">Acordar</div>
+          <div class="doc-desc">Organização + Higiene</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">07:30–08:00</div>
+          <div class="doc-title">Animação e oração da manhã<br>+ Apresentação da divisão das equipes</div>
+          <div class="doc-desc">Despertando para a vida em Cristo.<br>Observação: Animação com músicas católicas e oração de louvor para iniciar o dia com energia.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">08:00–08:45</div>
+          <div class="doc-title">Café da manhã</div>
+          <div class="doc-desc">Partilha e comunhão.<br>Observação: Refeição em comunidade, preparando o corpo e o espírito.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">08:45–09:00</div>
+          <div class="doc-title">Concentração na Capela e animação</div>
+          <div class="doc-desc">Preparação para a palestra</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">09:00–10:30</div>
+          <div class="doc-title">Pregação - Sede santo sem deixar de ser jovens (Ângelo)</div>
+          <div class="doc-desc">Momento conduzido por Ângelo, convidando os jovens a refletirem que é possível viver a alegria, a autenticidade e a juventude sem se afastar de Deus. A pregação destacará que a santidade não é algo distante, mas um chamado para todos, especialmente para os jovens em seu dia a dia, nas escolhas, amizades e atitudes. Durante a reflexão, será introduzida a música tema do retiro, reforçando o convite a abrir o coração à ação de Deus. Também serão apresentados o segundo e o terceiro dons do Espírito Santo, o Entendimento e o Conselho, que ajudam a compreender a vontade de Deus e a fazer escolhas corretas no caminho da vida cristã.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">10:30–10:45</div>
+          <div class="doc-title">INTERVALO - Banheiro/Água</div>
+          <div class="doc-desc">Intervalo</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">10:45–12:00</div>
+          <div class="doc-title">Criar grito de guerra<br>+<br>Gincana das Cores</div>
+          <div class="doc-desc">Cada equipe será direcionada a um espaço do retiro para um momento de integração. Os participantes irão carimbar as mãos, com tinta da cor da sua equipe, nas camisetas dos integrantes e escrever seus nomes com canetão permanente. Em seguida, cada grupo criará seu próprio grito de guerra, fortalecendo o espírito de união, identidade e animação para as atividades do retiro.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">12:00–13:00</div>
+          <div class="doc-title">Almoço</div>
+          <div class="doc-desc">Alimento para o corpo e a alma.<br>Observação: Refeição em comunidade, reforçando os laços criados.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">13:00–13:15</div>
+          <div class="doc-title">INTERVALO - Escovar os dentes</div>
+          <div class="doc-desc">Higiene</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">13:15–14:00</div>
+          <div class="doc-title">Reencontro: Animação + Teatro do banquinho</div>
+          <div class="doc-desc">Momento de animação seguido da apresentação do teatro “O Banco”. Após a encenação, será conduzida uma breve reflexão com os jovens sobre a mensagem apresentada, incentivando-os a pensar sobre suas escolhas, atitudes e a presença de Deus em suas vidas.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">14:00–16:00</div>
+          <div class="doc-title">Circuito dos Dons do Espírito Santo</div>
+          <div class="doc-desc">Atividade em grupos composta por 7 estações desafiadoras, cada uma representando um dos Dons do Espírito Santo (Sabedoria, Inteligência, Conselho, Fortaleza, Ciência, Piedade e Temor de Deus). Em cada estação, os participantes enfrentarão desafios que estimulam reflexão, cooperação e espírito de equipe. A dinâmica busca despertar nos jovens a importância de viver e colocar em prática os dons recebidos de Deus, promovendo união, colaboração e participação ativa entre todos.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">16:00–17:00</div>
+          <div class="doc-title">Pregação - Jesus: nos aceita do jeito que estamos</div>
+          <div class="doc-desc">Ao final da trilha do Circuito dos Dons do Espírito Santo, depois de passarem por diferentes desafios nas estações, os jovens chegarão à última parada, onde serão recebidos por Jesus, simbolizando o encontro pessoal com Ele após a caminhada e os desafios vividos. Em seguida, todos serão direcionados à capela para a pregação, que destacará que Jesus nos acolhe como somos, com nossas fraquezas e limitações, e nos convida a caminhar com Ele em um processo de transformação e amor. Durante a reflexão, o pregador também trabalhará o quarto e o quinto dons do Espírito Santo, Fortaleza e Ciência, ajudando os jovens a compreender que Deus nos dá força para enfrentar as dificuldades e sabedoria para reconhecer Sua presença em nossa vida e em nossa caminhada de fé.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">17:00–18:00</div>
+          <div class="doc-title">Café da tarde</div>
+          <div class="doc-desc">Pausa para nutrição e partilha.<br>Observação: Breve intervalo para um lanche leve e descontraído.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">18:00–19:00</div>
+          <div class="doc-title">Banho</div>
+          <div class="doc-desc">Tempo livre para o banho</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">19:00–19:15</div>
+          <div class="doc-title">Concentração na área externa</div>
+          <div class="doc-desc">Após o banho, os retirantes serão direcionados para a área externa, onde haverá uma fogueira já acesa. O padre estará aguardando os jovens, enquanto um momento de interiorização será conduzido com músicas de louvor em voz e violão. Neste ambiente de oração e reflexão, os participantes serão convidados a entregar a Deus seus pecados, dificuldades e tudo aquilo que desejam deixar para trás em suas vidas.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">19:15–20:30</div>
+          <div class="doc-title">Queima dos pecados</div>
+          <div class="doc-desc">Momento conduzido pelo padre, voltado à reflexão sobre o Sacramento da Reconciliação. Será realizado um exame de consciência mais aprofundado, convidando os jovens a reconhecerem suas falhas e abrirem o coração ao perdão de Deus. Em seguida, haverá uma dinâmica de escrita, onde cada participante poderá colocar no papel aquilo que deseja deixar para trás em sua vida, simbolizando esse momento com a queima dos pecados na fogueira.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">20:30–22:00</div>
+          <div class="doc-title">Jantar à luz de velas</div>
+          <div class="doc-desc">Após o momento da Queima dos Pecados e da experiência do perdão de Deus, os jovens participarão de um jantar especial à luz de velas, simbolizando um momento de amor, acolhida e fraternidade entre todos. Será um tempo de partilha e convivência, celebrando a alegria de recomeçar após a experiência de reconciliação.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">22:00–00:00</div>
+          <div class="doc-title">Pregação - O Espírito Santo: Nosso Guia e Consolador<br>+<br>Grande Clamor ao Espírito Santo<br>+<br>Adoração<br>Sidnei Azevedo</div>
+          <div class="doc-desc">A pregação será conduzida por Sidnei Azevedo, levando os jovens a compreenderem a presença do Espírito Santo como guia, força e consolador em suas vidas. Durante a reflexão, serão apresentados também o sexto e o sétimo dons do Espírito Santo, Piedade e Temor de Deus, aprofundando o chamado a viver uma relação de amor, respeito e confiança com Deus. Ao final, será feito um breve resumo de todos os dons do Espírito Santo trabalhados ao longo do retiro, reforçando sua importância na vida cristã. Este será o ápice espiritual do retiro, culminando em um grande clamor ao Espírito Santo, convidando os participantes a abrirem seus corações para a ação de Deus, seguido de um momento de adoração e encontro pessoal com Jesus.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">00:00–00:15</div>
+          <div class="doc-title">Corredor do amor</div>
+          <div class="doc-desc">Ao final do momento na capela, os retirantes sairão e passarão por um corredor formado por pessoas ao redor. Diferente do momento da tentação vivido anteriormente no retiro, aqui os jovens ouvirão palavras de incentivo, amor e esperança. O ambiente contará com luzes que remetem à paz e ao amor de Deus. Este corredor conduzirá os participantes até os quartos, preparando-os para o momento de descanso após um dia intenso de experiências e reflexão.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">00:15–—</div>
+          <div class="doc-title">Dormir</div>
+          <div class="doc-desc">Descanso</div>
+        </article>
+      </div>
+
+      <h2 class="doc-section">DIA 3 - Ser Ser luz no mundo.</h2>
+      <h3 class="doc-day">Domingo</h3>
+      <div class="doc-cards">
+        <article class="doc-card">
+          <div class="doc-time">06:45–07:30</div>
+          <div class="doc-title">Acordar</div>
+          <div class="doc-desc">Organização + Higiene</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">07:30–08:00</div>
+          <div class="doc-title">Oração da manhã + Animação</div>
+          <div class="doc-desc">Despertando para a vida em Cristo.<br>Observação: Animação com músicas católicas e oração de louvor para iniciar o dia com energia.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">08:00–08:45</div>
+          <div class="doc-title">Café da manhã</div>
+          <div class="doc-desc">Partilha e comunhão.<br>Observação: Refeição em comunidade, preparando o corpo e o espírito.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">08:45–09:00</div>
+          <div class="doc-title">Concentração na Capela + Animação</div>
+          <div class="doc-desc">Preparação para a palestra</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">09:00–09:15</div>
+          <div class="doc-title">Apresentação do grito de guerra</div>
+          <div class="doc-desc">Iremos pedir para cada equipe apresentar seu grito de guerra e a secretária irá “avaliar e marcar pontos”.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">09:45–10:00</div>
+          <div class="doc-title">Intervalo</div>
+          <div class="doc-desc">Banheiro/água</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">10:00–12:00</div>
+          <div class="doc-title">Momento Mariano</div>
+          <div class="doc-desc">Durante este momento, serão apresentadas sete representações marianas — Nossa Senhora de Guadalupe, das Graças, de Fátima, do Carmo, de Lourdes, Aparecida e Desatadora dos Nós, recordando a presença materna de Maria na vida da Igreja e sua constante intercessão por seus filhos. Após a pregação, os jovens serão convidados a se aproximar daquela representação de Maria com a qual mais se identificarem, podendo abraçá-la e viver um momento simbólico de acolhimento, entrega e oração. Também será recordado que Maria sempre nos conduz ao seu Filho e nos ajuda a abrir o coração à ação do Espírito Santo em nossa vida.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">12:00–13:15</div>
+          <div class="doc-title">Almoço</div>
+          <div class="doc-desc">Alimento para o corpo e a alma.<br>Observação: Refeição em comunidade, reforçando os laços criados.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">13:15–13:30</div>
+          <div class="doc-title">INTERVALO - Escovar os dentes (colocar camiseta)</div>
+          <div class="doc-desc">As camisetas estarão organizadas por cor na capela. Cada equipe deverá se dirigir ao local, retirar as camisetas correspondentes à sua cor e vesti-las, fortalecendo a identidade e a união do grupo para os momentos finais do retiro.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">13:30–15:00</div>
+          <div class="doc-title">Pregação - Família: O sonho de Deus em nossas vidas<br>+<br>Entrega das cartas e lembranças</div>
+          <div class="doc-desc">Última pregação do retiro, conduzida por Nelson Azevedo. Será um momento de reflexão sobre a importância da família no plano de Deus e o chamado de cada jovem a viver o amor, o respeito e os valores cristãos dentro de seu lar. Aqui acontecerá a entrega das cartas e lembranças, proporcionando um momento de emoção, gratidão e fortalecimento dos laços familiares.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">15:00–16:00</div>
+          <div class="doc-title">Lanche e partilha</div>
+          <div class="doc-desc">Pausa para nutrição e partilha.<br>Observação: Breve intervalo para um lanche leve e descontraído.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">16:00–16:30</div>
+          <div class="doc-title">Organização para saída</div>
+          <div class="doc-desc">Os retirantes serão orientados a retornar aos quartos para recolher todos os seus pertences e levá-los até o ônibus, organizando a bagagem para a saída e encerramento do retiro.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">16:30–18:30</div>
+          <div class="doc-title">Deslocamento</div>
+          <div class="doc-desc">Momento alegre e descontraído de retorno. Durante a viagem, os jovens serão incentivados a permanecer próximos de seus grupos, partilhando experiências e vivências do retiro.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">18:30–19:00</div>
+          <div class="doc-title">Acomodação</div>
+          <div class="doc-desc">Ao chegarem à igreja, os adolescentes serão direcionados ao salão paroquial, onde serão organizados em duplas para a entrada na igreja. Em seguida, entrarão pela porta principal em fila de duplas, cantando uma música animada do retiro e vestindo as camisetas da cor de suas equipes. Ao chegarem à frente do presbitério, todos permanecerão reunidos até o final da música e, em seguida, se dirigir-se-ão aos lugares reservados para eles nos bancos da igreja.</div>
+        </article>
+        <article class="doc-card">
+          <div class="doc-time">19:00–20:00</div>
+          <div class="doc-title">Santa Missa</div>
+          <div class="doc-desc">Celebração de encerramento do retiro, momento em que todos os jovens, equipes e comunidade se reúnem para agradecer a Deus pelas graças vividas durante os dias de retiro. Será o momento de entregar a Deus tudo o que foi experimentado, fortalecendo o compromisso de viver na vida diária aquilo que foi aprendido e vivido. Ao final da Missa iremos anunciar a equipe vencedora do retiro, que serão todas.</div>
+        </article>
+      </div>
+    </div>
+  </section>
 </main>
 
 <footer class="site-footer">Retiro de Crisma 2026 &mdash; Manda teu Fogo</footer>
@@ -260,6 +533,25 @@ const SCHEDULE = {"days":{"Sexta":{"rows":[{"ini":"19:00","fim":"19:15"},{"ini":
 let activeDay = 'Sexta';
 let activeTeam = TEAMS[0];
 let showGen = true;
+let activePage = 'cronograma';
+
+function setPage(pageKey) {
+  activePage = pageKey;
+  const isCronograma = pageKey === 'cronograma';
+  const tabCron = document.getElementById('tabCronograma');
+  const tabAtv = document.getElementById('tabAtividades');
+  const pageCron = document.getElementById('pageCronograma');
+  const pageAtv = document.getElementById('pageAtividades');
+
+  tabCron.classList.toggle('active', isCronograma);
+  tabAtv.classList.toggle('active', !isCronograma);
+  tabCron.setAttribute('aria-selected', isCronograma ? 'true' : 'false');
+  tabAtv.setAttribute('aria-selected', !isCronograma ? 'true' : 'false');
+  pageCron.classList.toggle('active', isCronograma);
+  pageAtv.classList.toggle('active', !isCronograma);
+
+  if (!isCronograma) document.body.classList.remove('hide-general');
+}
 
 function hexRgba(h, a) {
   const r=parseInt(h.slice(1,3),16), g=parseInt(h.slice(3,5),16), b=parseInt(h.slice(5,7),16);
@@ -495,6 +787,9 @@ document.getElementById('btnHide').onclick = () => {
   render();
 };
 
+document.getElementById('tabCronograma').onclick = () => setPage('cronograma');
+document.getElementById('tabAtividades').onclick = () => setPage('atividades');
+
 let lastMobile = window.matchMedia('(max-width: 720px)').matches;
 window.addEventListener('resize', () => {
   const now = window.matchMedia('(max-width: 720px)').matches;
@@ -504,6 +799,7 @@ window.addEventListener('resize', () => {
   }
 });
 
+setPage((location.hash || '').toLowerCase() === '#atividades' ? 'atividades' : 'cronograma');
 render();
 </script>
 </body>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retiro de Crisma 2026 — Manda teu Fogo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0b1b2f;
+  --paper: #fbfcff;
+  --cream: #eef2f9;
+  --gold: #f5851f;
+  --gold-light: #ffb870;
+  --gold-pale: #fff1e4;
+  --accent: #1457c7;
+  --muted: #5b6779;
+  --line: rgba(11,27,47,0.12);
+  --r: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: 0.5;
+}
+
+/* HEADER */
+.site-header {
+  position: relative; padding: 2.75rem 2rem 2.25rem;
+  border-bottom: 1px solid var(--line); text-align: center; overflow: hidden;
+  background:
+    radial-gradient(900px 340px at 50% -10%, rgba(20,87,199,0.14), transparent 65%),
+    radial-gradient(800px 320px at 50% 0%, rgba(245,133,31,0.18), transparent 60%),
+    linear-gradient(180deg, rgba(238,242,249,0.9), rgba(251,252,255,1));
+}
+.site-header::after {
+  content: ''; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%);
+  width: 80px; height: 2px; background: var(--gold);
+}
+.brand {
+  display: grid;
+  place-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.brand img {
+  width: min(280px, 80vw);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 10px 24px rgba(11,27,47,0.18));
+}
+.eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+.site-header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 300; line-height: 1.1; color: var(--ink); letter-spacing: -0.01em; }
+.site-header h1 em { font-style: italic; color: var(--accent); }
+.site-header .subtitle { margin-top: 0.75rem; font-size: 14px; color: var(--muted); letter-spacing: 0.04em; }
+
+/* MAIN */
+.main { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+
+/* CONTROLS */
+.controls { display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 2.5rem; }
+.control-group { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.control-label { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); min-width: 52px; }
+
+.day-tabs { display: flex; gap: 0; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--cream); }
+.day-tab { padding: 10px 22px; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; border: none; background: transparent; color: var(--muted); transition: all 0.2s; border-right: 1px solid var(--line); font-family: 'DM Sans', sans-serif; }
+.day-tab:last-child { border-right: none; }
+.day-tab:hover { background: var(--gold-pale); color: var(--ink); }
+.day-tab.active { background: var(--accent); color: #fff; }
+
+.team-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.team-pill { padding: 8px 16px; border-radius: 99px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid var(--line); background: transparent; color: var(--muted); transition: all 0.2s; font-family: 'DM Sans', sans-serif; letter-spacing: 0.02em; }
+.team-pill:hover { border-color: var(--gold); color: var(--ink); background: var(--gold-pale); }
+.team-pill.active { border-color: transparent; color: var(--paper); font-weight: 500; }
+
+.toggle-pair { display: flex; gap: 0; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--cream); }
+.toggle-btn { padding: 9px 16px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; cursor: pointer; border: none; background: transparent; color: var(--muted); transition: all 0.2s; border-right: 1px solid var(--line); font-family: 'DM Sans', sans-serif; }
+.toggle-btn:last-child { border-right: none; }
+.toggle-btn:hover { background: var(--gold-pale); color: var(--ink); }
+.toggle-btn.active { background: var(--accent); color: #fff; }
+
+/* STAT BAR */
+.stat-bar { display: flex; gap: 1.5rem; padding: 1rem 1.25rem; background: var(--cream); border: 1px solid var(--line); border-radius: var(--r); margin-bottom: 1.75rem; flex-wrap: wrap; align-items: center; }
+.stat { display: flex; flex-direction: column; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 600; line-height: 1; color: var(--ink); }
+.stat-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+.stat-team { margin-left: auto; text-align: right; }
+.stat-team .stat-num { font-size: 1rem; letter-spacing: 0.02em; }
+
+/* LEGEND */
+.legend { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+.legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+/* SECTION DIVIDER */
+.section-divider { display: flex; align-items: center; gap: 1rem; margin: 0 0 1.5rem; }
+.section-divider span { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; color: var(--gold); white-space: nowrap; }
+.section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+/* SCHEDULE GRID */
+.schedule-wrap { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: #fff; animation: fadeIn 0.3s ease; }
+.schedule-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+.schedule-table thead th { background: var(--cream); border-bottom: 1px solid var(--line); padding: 12px 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-align: left; }
+.schedule-table thead th.col-time { width: 92px; text-align: right; }
+.schedule-table tbody td { padding: 12px 12px; vertical-align: top; border-bottom: 1px solid rgba(11,27,47,0.08); }
+.schedule-table tbody tr:last-child td { border-bottom: none; }
+
+.time-cell { padding: 12px 10px; text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); font-size: 12px; white-space: nowrap; }
+.time-stack strong { display: block; font-size: 13px; font-weight: 800; color: var(--ink); letter-spacing: 0.01em; }
+.time-stack span { font-weight: 600; }
+
+.gcell { background: linear-gradient(180deg, rgba(255,241,228,0.35), rgba(255,241,228,0.12)); }
+.ecell { background: #fff; border-left: 1px dashed rgba(11,27,47,0.14); }
+.empty-cell { color: transparent; }
+.empty-cell::selection { background: transparent; }
+.filled { padding: 0 !important; }
+.filled { position: relative; }
+.filled > .block { position: absolute; inset: 0; padding: 12px 12px; }
+.block { display: block; }
+.block-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
+.block-time { font-size: 12px; font-weight: 800; color: var(--muted); white-space: nowrap; letter-spacing: 0.02em; }
+
+.cell-main { font-size: 14px; line-height: 1.35; font-weight: 600; color: var(--ink); }
+.cell-sub { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 12px; color: var(--muted); background: var(--cream); border-radius: 999px; padding: 4px 10px; }
+.muted { color: var(--muted); font-weight: 500; }
+.team-mark { border-left: 4px solid transparent; border-radius: 8px; padding-left: 10px; }
+.team-mark .cell-main { font-weight: 700; }
+
+body.hide-general .col-general { display: none; }
+body.hide-general .ecell { border-left: none; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* EMPTY */
+.empty-state { text-align: center; padding: 4rem 1rem; }
+.empty-icon { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--gold-light); line-height: 1; margin-bottom: 1rem; }
+.empty-state p { font-size: 14px; color: var(--muted); font-style: italic; }
+
+/* FOOTER */
+.site-footer { text-align: center; padding: 1.5rem; font-size: 11px; color: var(--muted); letter-spacing: 0.06em; border-top: 1px solid var(--line); position: relative; z-index: 1; }
+
+button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .site-header { padding: 2.25rem 1.1rem 1.5rem; }
+  .main { padding: 1.25rem 0.9rem 4rem; }
+  .controls { gap: 1rem; }
+  .control-label { width: 100%; min-width: 0; }
+  .day-tabs, .toggle-pair { width: 100%; }
+  .day-tab { flex: 1; padding: 10px 12px; }
+  .stat-bar { gap: 1rem; padding: 0.9rem 1rem; }
+  .stat-team { margin-left: 0; text-align: left; }
+  .schedule-table thead { display: none; }
+  .schedule-table, .schedule-table tbody, .schedule-table tr, .schedule-table td { display: block; width: 100%; }
+  .schedule-table tbody td { border-bottom: none; }
+  .schedule-table tbody tr { border-bottom: 1px solid rgba(11,27,47,0.08); }
+  .schedule-table tbody tr:last-child { border-bottom: none; }
+  .time-cell { text-align: left; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; background: var(--cream); border-bottom: 1px solid rgba(11,27,47,0.08); }
+  .time-stack strong { display: inline; }
+  .gcell, .ecell { padding: 12px 12px; }
+  .ecell { border-left: none; border-top: 1px dashed rgba(11,27,47,0.14); }
+  .cell-main { font-size: 15px; }
+  body.hide-general .time-cell { border-bottom: none; }
+  body.hide-general .ecell { border-top: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="Logo-aplicacao.png" alt="Retiro de Crisma — Manda teu Fogo">
+  </div>
+  <div class="eyebrow">Retiro de Crisma &mdash; 2026</div>
+  <h1>Manda teu <em>Fogo</em></h1>
+  <p class="subtitle">Cronograma por equipe &mdash; Sexta a Domingo</p>
+</header>
+
+<main class="main">
+  <div class="controls">
+    <div class="control-group">
+      <span class="control-label">Dia</span>
+      <div class="day-tabs">
+        <button class="day-tab active" data-day="Sexta">Sexta-feira</button>
+        <button class="day-tab" data-day="Sábado">Sábado</button>
+        <button class="day-tab" data-day="Domingo">Domingo</button>
+      </div>
+    </div>
+    <div class="control-group">
+      <span class="control-label">Equipe</span>
+      <div class="team-pills" id="teamPills"></div>
+    </div>
+    <div class="control-group">
+      <span class="control-label">Prog. geral</span>
+      <div class="toggle-pair">
+        <button class="toggle-btn active" id="btnShow">Mostrar</button>
+        <button class="toggle-btn" id="btnHide">Ocultar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-bar">
+    <div class="stat"><span class="stat-num" id="statAct">0</span><span class="stat-label">Atividades</span></div>
+    <div class="stat"><span class="stat-num" id="statFirst">—</span><span class="stat-label">Início</span></div>
+    <div class="stat"><span class="stat-num" id="statLast">—</span><span class="stat-label">Término</span></div>
+    <div class="stat stat-team"><span class="stat-num" id="statName">—</span><span class="stat-label">Equipe selecionada</span></div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#fff;border:1px solid rgba(11,27,47,0.18);"></div>Atividade da equipe</div>
+    <div class="legend-item" id="lgGeneral"><div class="legend-dot" style="background:#fff1e4;border:1px solid rgba(245,133,31,0.42);"></div>Cronograma geral (crismandos)</div>
+  </div>
+
+  <div class="section-divider"><span id="secLabel">Programação</span></div>
+  <div class="schedule-wrap">
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th class="col-time">Horário</th>
+          <th class="col-general" id="generalHeader">Geral (crismandos)</th>
+          <th class="col-team" id="teamHeader">Equipe</th>
+        </tr>
+      </thead>
+      <tbody id="schedule"></tbody>
+    </table>
+  </div>
+</main>
+
+<footer class="site-footer">Retiro de Crisma 2026 &mdash; Manda teu Fogo</footer>
+
+<script>
+const TEAMS = [
+  { key:'guardiao',    label:'Guardiões',                    color:'#534AB7' },
+  { key:'movimento',   label:'Movimento',                    color:'#0F6E56' },
+  { key:'providencia', label:'Providência (Cozinha e Copa)', color:'#B07A15' },
+  { key:'limpeza',     label:'Limpeza',                      color:'#185FA5' },
+  { key:'som',         label:'Servos do Altar — Som',        color:'#8B2E5A' },
+  { key:'missao',      label:'Missão',                       color:'#4A4A4A' },
+];
+
+const SCHEDULE = {"days":{"Sexta":{"rows":[{"ini":"19:00","fim":"19:15"},{"ini":"19:15","fim":"19:30"},{"ini":"19:30","fim":"19:45"},{"ini":"19:45","fim":"20:00"},{"ini":"20:00","fim":"20:15"},{"ini":"20:15","fim":"20:30"},{"ini":"20:30","fim":"20:45"},{"ini":"20:45","fim":"21:00"},{"ini":"21:00","fim":"21:15"},{"ini":"21:15","fim":"21:30"},{"ini":"21:30","fim":"21:45"},{"ini":"21:45","fim":"22:00"},{"ini":"22:00","fim":"22:15"},{"ini":"22:15","fim":"22:30"},{"ini":"22:30","fim":"22:45"},{"ini":"22:45","fim":"23:00"},{"ini":"23:00","fim":"23:15"},{"ini":"23:15","fim":"23:30"},{"ini":"23:30","fim":"23:45"},{"ini":"23:45","fim":"00:00"},{"ini":"00:00","fim":"00:15"},{"ini":"00:15","fim":"00:30"},{"ini":"00:30","fim":"00:45"}],"local":[{"s":0,"e":3,"text":"Paróquia"},{"s":10,"e":10,"text":"Hall de entrada"},{"s":11,"e":16,"text":"Capela"},{"s":17,"e":18,"text":"Hall de entrada"},{"s":19,"e":21,"text":"Capela"},{"s":22,"e":22,"text":"Quartos"}],"general":[{"s":0,"e":2,"text":"Chegada e Acolhimento na Paróquia\n+\nLanche"},{"s":3,"e":3,"text":"Palavra de Acolhida, Oração Inicial e Leitura Bíblica"},{"s":4,"e":9,"text":"Deslocamento"},{"s":10,"e":10,"text":"Caminhada do desafio e tentação"},{"s":11,"e":16,"text":"Pregação - Vícios e sexualidade"},{"s":17,"e":18,"text":"Ceia"},{"s":19,"e":21,"text":"Louvor \"acalma seu coração\" - Entrada do Santíssimo Sacramento"},{"s":22,"e":22,"text":"Banho e repouso"}],"teams":{"guardiao":[{"s":0,"e":2,"text":"Recepciona os jovens"},{"s":10,"e":21,"text":"Acompanhamento dos crismandos"},{"s":22,"e":22,"text":"Direcionamento dos crismandos"}],"movimento":[{"s":0,"e":9,"text":"Preparação da \"Caminhada do Desafio e tentação\""},{"s":10,"e":10,"text":"Execução - Caminhada do Desafio"},{"s":11,"e":13,"text":"Retirar do ônibus e organizar as malas na sala de palestra"},{"s":14,"e":16,"text":"Retirada das luzes/desmobilização da caminhada do desafio e tentação"},{"s":17,"e":18,"text":"Organizar cadeiras na capela"},{"s":21,"e":21,"text":"Ligar os chuveiros"},{"s":22,"e":22,"text":"Direcionamento dos crismandos"}],"providencia":[{"s":6,"e":8,"text":"Servir cachorro quente para voluntários locais na copa"},{"s":14,"e":16,"text":"Organizar cachorro quente  dos crismandos"},{"s":17,"e":18,"text":"Servir cachorro quente para crismandos"},{"s":19,"e":21,"text":"Limpeza e organização"},{"s":22,"e":22,"text":"Dormir"}],"limpeza":[{"s":10,"e":10,"text":"Execução - Caminhada do Desafio"},{"s":17,"e":18,"text":"Sobreaviso - Ceia"},{"s":19,"e":21,"text":"Limpeza da entrada, pós ceia"}],"som":[{"s":0,"e":9,"text":"Preparação da \"Caminhada do Desafio\""},{"s":10,"e":16,"text":"Presença na capela"},{"s":19,"e":21,"text":"Presença na capela"}],"missao":[{"s":0,"e":3,"text":"Organizar e servir café no salão paroquial"}]}},"Sábado":{"rows":[{"ini":"06:00","fim":"06:15"},{"ini":"06:15","fim":"06:30"},{"ini":"06:30","fim":"06:45"},{"ini":"06:45","fim":"07:00"},{"ini":"07:00","fim":"07:15"},{"ini":"07:15","fim":"07:30"},{"ini":"07:30","fim":"07:45"},{"ini":"07:45","fim":"08:00"},{"ini":"08:00","fim":"08:15"},{"ini":"08:15","fim":"08:30"},{"ini":"08:30","fim":"08:45"},{"ini":"08:45","fim":"09:00"},{"ini":"09:00","fim":"09:15"},{"ini":"09:15","fim":"09:30"},{"ini":"09:30","fim":"09:45"},{"ini":"09:45","fim":"10:00"},{"ini":"10:00","fim":"10:15"},{"ini":"10:15","fim":"10:30"},{"ini":"10:30","fim":"10:45"},{"ini":"10:45","fim":"11:00"},{"ini":"11:00","fim":"11:15"},{"ini":"11:15","fim":"11:30"},{"ini":"11:30","fim":"11:45"},{"ini":"11:45","fim":"12:00"},{"ini":"12:00","fim":"12:15"},{"ini":"12:15","fim":"12:30"},{"ini":"12:30","fim":"12:45"},{"ini":"12:45","fim":"13:00"},{"ini":"13:00","fim":"13:15"},{"ini":"13:15","fim":"13:30"},{"ini":"13:30","fim":"13:45"},{"ini":"13:45","fim":"14:00"},{"ini":"14:00","fim":"14:15"},{"ini":"14:15","fim":"14:30"},{"ini":"14:30","fim":"14:45"},{"ini":"14:45","fim":"15:00"},{"ini":"15:00","fim":"15:15"},{"ini":"15:15","fim":"15:30"},{"ini":"15:30","fim":"15:45"},{"ini":"15:45","fim":"16:00"},{"ini":"16:00","fim":"16:15"},{"ini":"16:15","fim":"16:30"},{"ini":"16:30","fim":"16:45"},{"ini":"16:45","fim":"17:00"},{"ini":"17:00","fim":"17:15"},{"ini":"17:15","fim":"17:30"},{"ini":"17:30","fim":"17:45"},{"ini":"17:45","fim":"18:00"},{"ini":"18:00","fim":"18:15"},{"ini":"18:15","fim":"18:30"},{"ini":"18:30","fim":"18:45"},{"ini":"18:45","fim":"19:00"},{"ini":"19:00","fim":"19:15"},{"ini":"19:15","fim":"19:30"},{"ini":"19:30","fim":"19:45"},{"ini":"19:45","fim":"20:00"},{"ini":"20:00","fim":"20:15"},{"ini":"20:15","fim":"20:30"},{"ini":"20:30","fim":"20:45"},{"ini":"20:45","fim":"21:00"},{"ini":"21:00","fim":"21:15"},{"ini":"21:15","fim":"21:30"},{"ini":"21:30","fim":"21:45"},{"ini":"21:45","fim":"22:00"},{"ini":"22:00","fim":"22:15"},{"ini":"22:15","fim":"22:30"},{"ini":"22:30","fim":"22:45"},{"ini":"22:45","fim":"23:00"},{"ini":"23:00","fim":"23:15"},{"ini":"23:15","fim":"23:30"},{"ini":"23:30","fim":"23:45"},{"ini":"23:45","fim":"00:00"},{"ini":"00:00","fim":"00:15"},{"ini":"00:15","fim":"00:30"},{"ini":"00:30","fim":"00:45"}],"local":[{"s":3,"e":5,"text":"Quartos"},{"s":6,"e":7,"text":"Capela"},{"s":8,"e":10,"text":"Refeitório e Sala de Palestras"},{"s":11,"e":17,"text":"Capela"},{"s":19,"e":23,"text":"Área externa"},{"s":24,"e":27,"text":"Refeitório e Sala de Palestras"},{"s":29,"e":31,"text":"Capela"},{"s":32,"e":39,"text":"Área externa"},{"s":40,"e":43,"text":"Refeitório e Sala de Palestras"},{"s":44,"e":47,"text":"Capela"},{"s":48,"e":51,"text":"Quartos"},{"s":52,"e":57,"text":"Área externa"},{"s":58,"e":63,"text":"Refeitório e Sala de Palestras"},{"s":64,"e":71,"text":"Capela"},{"s":72,"e":72,"text":"Hall de entrada"},{"s":73,"e":74,"text":"Quartos"}],"general":[{"s":3,"e":5,"text":"Acordar"},{"s":6,"e":7,"text":"Animação e Oração da manhã\n+ Apresentação da divisão das equipes"},{"s":8,"e":10,"text":"Café da manhã"},{"s":11,"e":11,"text":"Concentração na Capela e animação"},{"s":12,"e":17,"text":"Pregação - Sede santo sem deixar de ser jovens (Angelo)"},{"s":18,"e":18,"text":"INTERVALO - Banheiro/Água"},{"s":19,"e":23,"text":"Criar grito de guerra\n+\nGincana das Cores"},{"s":24,"e":27,"text":"Almoço"},{"s":28,"e":28,"text":"INTERVALO - Escovar os dentes"},{"s":29,"e":31,"text":"Reencontro: Animação + Teatro (ou apresentação do grito de guerra)"},{"s":32,"e":39,"text":"Circuito dos Dons do Espírito Santo"},{"s":40,"e":43,"text":"Pregação - Jesus: nos aceita do jeito que estamos"},{"s":44,"e":47,"text":"Café da tarde"},{"s":48,"e":51,"text":"Banho"},{"s":52,"e":52,"text":"Concentração na área externa"},{"s":53,"e":57,"text":"Queima dos pecados"},{"s":58,"e":63,"text":"Jantar a luz de velas"},{"s":64,"e":71,"text":"Pregação - O Espírito Santo: Nosso Guia e Consolador\n+\nGrande Clamor ao Espírito Santo \n+\nAdoração"},{"s":72,"e":72,"text":"Corredor do amor"},{"s":73,"e":74,"text":"Dormir"}],"teams":{"guardiao":[{"s":0,"e":2,"text":"Acordar"},{"s":3,"e":5,"text":"Acordar e reunir as equipes"},{"s":6,"e":49,"text":"Acompanhar crismandos em todas as tarefas"},{"s":50,"e":54,"text":"Banho (se arrumar para servir o jantar)"},{"s":55,"e":57,"text":"Jantar"},{"s":58,"e":63,"text":"Servir o jantar"},{"s":64,"e":71,"text":"Acompanhamento dos crismandos"},{"s":72,"e":72,"text":"Corredor do amor"},{"s":73,"e":74,"text":"Dormir"}],"movimento":[{"s":0,"e":2,"text":"Acordar"},{"s":3,"e":5,"text":"Café da manhã"},{"s":6,"e":11,"text":"Postos de guarda"},{"s":12,"e":17,"text":"Preparações para gincana das tintas"},{"s":18,"e":18,"text":"Postos de guarda"},{"s":19,"e":21,"text":"Apoio na gincana"},{"s":22,"e":23,"text":"Almoço"},{"s":24,"e":26,"text":"Descanso"},{"s":27,"e":27,"text":"Postos de guarda"},{"s":28,"e":31,"text":"Preparação do Circuito"},{"s":32,"e":39,"text":"Realizar circuito"},{"s":40,"e":42,"text":"Café da tarde junto com cirsmandos"},{"s":43,"e":46,"text":"Postos de guarda"},{"s":47,"e":47,"text":"Ligar chuveiros"},{"s":48,"e":50,"text":"Preparação da fogueira"},{"s":51,"e":54,"text":"Direcionamento e apoio na fogueira"},{"s":55,"e":57,"text":"Jantar"},{"s":58,"e":63,"text":"Postos de guarda"},{"s":64,"e":68,"text":"Banho"},{"s":69,"e":71,"text":"Organizar corredor do amor"},{"s":72,"e":72,"text":"Corredor do amor"},{"s":73,"e":74,"text":"Postos de guarda"}],"providencia":[{"s":0,"e":2,"text":"Preparação do café da manhã"},{"s":3,"e":7,"text":"Café da manhã das equipes"},{"s":8,"e":10,"text":"Café da manhã dos crismandos"},{"s":22,"e":23,"text":"Almoço das equipes"},{"s":24,"e":27,"text":"Almoço dos crismandos"},{"s":28,"e":31,"text":"Almoço da cozinha e descanso"},{"s":40,"e":43,"text":"Café da tarde das equipes"},{"s":44,"e":47,"text":"Café da tarde dos crismandos"},{"s":48,"e":49,"text":"Café da tarde da cozinha"},{"s":55,"e":57,"text":"Jantar das equipes"},{"s":58,"e":63,"text":"Jantar dos crismandos"},{"s":64,"e":66,"text":"Jantar da cozinha"},{"s":69,"e":71,"text":"Ceia das equipes (bolachas e chá)"},{"s":73,"e":74,"text":"Dormir"}],"limpeza":[{"s":0,"e":2,"text":"Acordar"},{"s":3,"e":5,"text":"Café da Manhã"},{"s":6,"e":7,"text":"Apoio na organização do refeitório"},{"s":8,"e":13,"text":"Vistoria dos quartos"},{"s":14,"e":18,"text":"Limpeza do refeitório 1 e 2"},{"s":19,"e":21,"text":"Limpeza e organização da capela"},{"s":22,"e":23,"text":"Almoço"},{"s":24,"e":27,"text":"Sobreaviso nos refeitórios"},{"s":28,"e":31,"text":"Descanso"},{"s":32,"e":37,"text":"Limpeza do refeitório 1 e 2"},{"s":44,"e":47,"text":"Sobreaviso nos refeitórios"},{"s":48,"e":51,"text":"Limpeza do refeitório 1 e 2"},{"s":52,"e":54,"text":"Limpeza e organização da capela"},{"s":55,"e":57,"text":"Jantar"},{"s":58,"e":63,"text":"Organização dos banheiros"},{"s":64,"e":71,"text":"Limpeza do refeitório 1 e 2"},{"s":73,"e":74,"text":"Dormir"}],"som":[{"s":0,"e":2,"text":"Acordar"},{"s":3,"e":5,"text":"Café da manhã"},{"s":6,"e":7,"text":"Animação na capela"},{"s":11,"e":17,"text":"Presença na capela"},{"s":22,"e":23,"text":"Almoço"},{"s":24,"e":27,"text":"Música ambiente (sistema central)"},{"s":28,"e":31,"text":"Presença na capela"},{"s":40,"e":43,"text":"Presença na capela"},{"s":44,"e":50,"text":"Música ambiente (sistema central)\n+\nCafé da tarde"},{"s":51,"e":54,"text":"Presença na Queima dos pecados"},{"s":55,"e":57,"text":"Jantar / Presença na Queima dos pecados (revezar)"},{"s":58,"e":63,"text":"Música ambiente (sistema central)"},{"s":64,"e":71,"text":"Presença na capela"},{"s":73,"e":74,"text":"Dormir"}],"missao":[]}},"Domingo":{"rows":[{"ini":"06:00","fim":"06:15"},{"ini":"06:15","fim":"06:30"},{"ini":"06:30","fim":"06:45"},{"ini":"06:45","fim":"07:00"},{"ini":"07:00","fim":"07:15"},{"ini":"07:15","fim":"07:30"},{"ini":"07:30","fim":"07:45"},{"ini":"07:45","fim":"08:00"},{"ini":"08:00","fim":"08:15"},{"ini":"08:15","fim":"08:30"},{"ini":"08:30","fim":"08:45"},{"ini":"08:45","fim":"09:00"},{"ini":"09:00","fim":"09:15"},{"ini":"09:15","fim":"09:30"},{"ini":"09:30","fim":"09:45"},{"ini":"09:45","fim":"10:00"},{"ini":"10:00","fim":"10:15"},{"ini":"10:15","fim":"10:30"},{"ini":"10:30","fim":"10:45"},{"ini":"10:45","fim":"11:00"},{"ini":"11:00","fim":"11:15"},{"ini":"11:15","fim":"11:30"},{"ini":"11:30","fim":"11:45"},{"ini":"11:45","fim":"12:00"},{"ini":"12:00","fim":"12:15"},{"ini":"12:15","fim":"12:30"},{"ini":"12:30","fim":"12:45"},{"ini":"12:45","fim":"13:00"},{"ini":"13:00","fim":"13:15"},{"ini":"13:15","fim":"13:30"},{"ini":"13:30","fim":"13:45"},{"ini":"13:45","fim":"14:00"},{"ini":"14:00","fim":"14:15"},{"ini":"14:15","fim":"14:30"},{"ini":"14:30","fim":"14:45"},{"ini":"14:45","fim":"15:00"},{"ini":"15:00","fim":"15:15"},{"ini":"15:15","fim":"15:30"},{"ini":"15:30","fim":"15:45"},{"ini":"15:45","fim":"16:00"},{"ini":"16:00","fim":"16:15"},{"ini":"16:15","fim":"16:30"},{"ini":"16:30","fim":"16:45"},{"ini":"16:45","fim":"17:00"},{"ini":"17:00","fim":"17:15"},{"ini":"17:15","fim":"17:30"},{"ini":"17:30","fim":"17:45"},{"ini":"17:45","fim":"18:00"},{"ini":"18:00","fim":"18:15"},{"ini":"18:15","fim":"18:30"},{"ini":"18:30","fim":"18:45"},{"ini":"18:45","fim":"19:00"},{"ini":"19:00","fim":"19:15"},{"ini":"19:15","fim":"19:30"},{"ini":"19:30","fim":"19:45"},{"ini":"19:45","fim":"20:00"}],"local":[{"s":3,"e":5,"text":"Quartos"},{"s":6,"e":7,"text":"Capela"},{"s":8,"e":10,"text":"Refeitório e Sala de Palestras"},{"s":11,"e":14,"text":"Capela"},{"s":16,"e":23,"text":"Capela"},{"s":24,"e":28,"text":"Refeitório e Sala de Palestras"},{"s":30,"e":35,"text":"Capela"},{"s":36,"e":39,"text":"Hall de entrada"}],"general":[{"s":3,"e":5,"text":"Acordar"},{"s":6,"e":7,"text":"Oração da manhã  + Animação"},{"s":8,"e":10,"text":"Café da manhã"},{"s":11,"e":11,"text":"Concentração na Capela"},{"s":12,"e":14,"text":"Entrega das camisetas e grito de guerra"},{"s":15,"e":15,"text":"Intervalo"},{"s":16,"e":23,"text":"Momento Mariano"},{"s":24,"e":28,"text":"Almoço"},{"s":29,"e":29,"text":"INTERVALO - Escovar os dentes (colocar camiseta)"},{"s":30,"e":35,"text":"Pregação - Família: O sonho de Deus em nossas vidas\n+\nEntrega das cartas e lembranças"},{"s":36,"e":39,"text":"Lanche e partilha"},{"s":40,"e":41,"text":"Organização para saída"},{"s":42,"e":50,"text":"Deslocamento"},{"s":51,"e":51,"text":"Acomodação"},{"s":52,"e":55,"text":"Santa Missa"}],"teams":{"guardiao":[{"s":0,"e":2,"text":"Despertar"},{"s":3,"e":5,"text":"Acordar e reunir as equipes"},{"s":6,"e":35,"text":"Acompanhar crismandos em todas as tarefas"},{"s":36,"e":39,"text":"Lanche/Café da tarde"},{"s":40,"e":41,"text":"Organização para saída"},{"s":42,"e":50,"text":"Deslocamento"}],"movimento":[{"s":0,"e":2,"text":"Acordar"},{"s":3,"e":5,"text":"Café da manhã"},{"s":6,"e":11,"text":"Preparação das representações das Maria(s) para o Movimento Mariano"},{"s":12,"e":14,"text":"Entrega das camisas"},{"s":15,"e":21,"text":"Participação no momento mariano"},{"s":22,"e":23,"text":"Almoço"},{"s":24,"e":29,"text":"Postos de guarda"},{"s":30,"e":35,"text":"Desmoibilizar refeitório 2 (sala de palestras)"},{"s":36,"e":39,"text":"Lanche/Café da tarde"},{"s":40,"e":41,"text":"Organização para saída"},{"s":42,"e":50,"text":"Organização geral do local"}],"providencia":[{"s":0,"e":2,"text":"Preparação do café da manhã"},{"s":3,"e":7,"text":"Café da manhã das equipes"},{"s":8,"e":10,"text":"Café da manhã dos crismandos"},{"s":22,"e":23,"text":"Almoço das equipes"},{"s":24,"e":28,"text":"Almoço dos crismandos"},{"s":29,"e":31,"text":"Almoço da cozinha"},{"s":36,"e":39,"text":"Lanche da partilha"},{"s":40,"e":47,"text":"Limpeza e organização da cozinha"}],"limpeza":[{"s":0,"e":2,"text":"Acordar"},{"s":3,"e":5,"text":"Café da Manhã"},{"s":6,"e":7,"text":"Organização do refeitório"},{"s":8,"e":10,"text":"Sobreaviso nos refeitórios"},{"s":11,"e":13,"text":"Limpeza do refeitório 1 e 2"},{"s":14,"e":21,"text":"Vistoria dos quartos e organização dos banheiros"},{"s":22,"e":23,"text":"Almoço"},{"s":24,"e":28,"text":"Sobreaviso nos refeitórios"},{"s":40,"e":47,"text":"Remoção dos lixos"}],"som":[{"s":0,"e":2,"text":"Acordar"},{"s":3,"e":5,"text":"Café da Manhã"},{"s":6,"e":7,"text":"Presença na capela"},{"s":8,"e":10,"text":"Música ambiente (sistema central)"},{"s":11,"e":23,"text":"Presença na capela"},{"s":24,"e":28,"text":"Música ambiente (sistema central)\n+\nAlmoço"},{"s":29,"e":35,"text":"Presença na capela"},{"s":36,"e":37,"text":"Retirada dos equipamentos"},{"s":38,"e":47,"text":"Deslocamento"},{"s":48,"e":51,"text":"Passagem de som na igreja"},{"s":52,"e":55,"text":"Santa Missa"}],"missao":[{"s":40,"e":47,"text":"Encontro com os pais"},{"s":51,"e":55,"text":"Organizar as malas no salão de festas"}]}}},"teamColsFound":{"guardiao":6,"movimento":7,"providencia":8,"limpeza":9,"som":10,"missao":11}};
+
+let activeDay = 'Sexta';
+let activeTeam = TEAMS[0];
+let showGen = true;
+
+function hexRgba(h, a) {
+  const r=parseInt(h.slice(1,3),16), g=parseInt(h.slice(3,5),16), b=parseInt(h.slice(5,7),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+function buildPills() {
+  const c = document.getElementById('teamPills'); c.innerHTML = '';
+  TEAMS.forEach(t => {
+    const p = document.createElement('button');
+    p.className = 'team-pill' + (t.key===activeTeam.key?' active':'');
+    p.textContent = t.label;
+    if (t.key===activeTeam.key) { p.style.background=t.color; p.style.borderColor=t.color; }
+    p.onclick = () => { activeTeam=t; render(); };
+    c.appendChild(p);
+  });
+}
+
+function buildBlockIndex(blocks, n) {
+  const skip = Array(n).fill(false);
+  const start = new Map();
+  blocks.forEach(b => {
+    start.set(b.s, b);
+    for (let i = b.s + 1; i <= b.e; i++) skip[i] = true;
+  });
+  return { skip, start };
+}
+
+function buildCoverText(blocks, n) {
+  const cover = Array(n).fill('');
+  blocks.forEach(b => {
+    for (let i = b.s; i <= b.e; i++) cover[i] = b.text;
+  });
+  return cover;
+}
+
+function buildCoverBounds(cover) {
+  const n = cover.length;
+  const start = Array(n).fill(0);
+  const end = Array(n).fill(0);
+
+  let i = 0;
+  while (i < n) {
+    const t = cover[i];
+    let j = i;
+    while (j + 1 < n && cover[j + 1] === t) j++;
+    for (let k = i; k <= j; k++) {
+      start[k] = i;
+      end[k] = j;
+    }
+    i = j + 1;
+  }
+
+  return { start, end };
+}
+
+function render() {
+  buildPills();
+  const dayData = (SCHEDULE.days || {})[activeDay];
+  const tbody = document.getElementById('schedule');
+  tbody.innerHTML = '';
+
+  document.getElementById('secLabel').textContent = activeDay === 'Sexta' ? 'Sexta-feira' : activeDay;
+  document.getElementById('lgGeneral').style.display = showGen ? 'flex' : 'none';
+  document.getElementById('teamHeader').textContent = activeTeam.label;
+  document.getElementById('generalHeader').style.display = showGen ? 'table-cell' : 'none';
+
+  if (!dayData || !dayData.rows || !dayData.rows.length) {
+    tbody.innerHTML = `<tr><td colspan="${showGen ? 3 : 2}"><div class="empty-state"><div class="empty-icon">✦</div><p>Nenhuma atividade encontrada para esta seleção.</p></div></td></tr>`;
+    document.getElementById('statAct').textContent = '0';
+    document.getElementById('statFirst').textContent = '—';
+    document.getElementById('statLast').textContent = '—';
+    const sn = document.getElementById('statName'); sn.textContent = activeTeam.label; sn.style.color = activeTeam.color;
+    return;
+  }
+
+  const rows = dayData.rows;
+  const n = rows.length;
+  const localCover = buildCoverText(dayData.local || [], n);
+
+  const generalBlocks = dayData.general || [];
+  const teamBlocks = ((dayData.teams || {})[activeTeam.key]) || [];
+
+  document.getElementById('statAct').textContent = String(teamBlocks.length);
+  document.getElementById('statFirst').textContent = teamBlocks.length ? rows[teamBlocks[0].s].ini : '—';
+  document.getElementById('statLast').textContent = teamBlocks.length ? (rows[teamBlocks[teamBlocks.length - 1].e].fim || rows[teamBlocks[teamBlocks.length - 1].e].ini) : '—';
+  const sn = document.getElementById('statName'); sn.textContent = activeTeam.label; sn.style.color = activeTeam.color;
+
+  const isMobile = window.matchMedia('(max-width: 720px)').matches;
+  if (isMobile) {
+    const genCover = buildCoverText(generalBlocks, n);
+    const teamCover = buildCoverText(teamBlocks, n);
+    const genBounds = buildCoverBounds(genCover);
+    const teamBounds = buildCoverBounds(teamCover);
+
+    for (let i = 0; i < n; i++) {
+      const tr = document.createElement('tr');
+
+      const tdTime = document.createElement('td');
+      tdTime.className = 'time-cell col-time';
+      tdTime.innerHTML = `<div class="time-stack"><strong>${rows[i].ini}</strong><span>${rows[i].fim || '—'}</span></div>`;
+      tr.appendChild(tdTime);
+
+      if (showGen) {
+        const tdGen = document.createElement('td');
+        tdGen.className = 'gcell col-general';
+        const loc = localCover[i];
+        const genRange = genCover[i] ? `${rows[genBounds.start[i]].ini}–${rows[genBounds.end[i]].fim || rows[genBounds.end[i]].ini || '—'}` : '';
+        let h = `<div class="block"><div class="block-head"><span class="block-time">${genRange}</span></div><div class="cell-main">${genCover[i] ? genCover[i] : '<span class=\"muted\">—</span>'}</div>`;
+        const meta = [];
+        if (loc) meta.push(`<span class="tag">📍 ${loc}</span>`);
+        if (meta.length) h += `<div class="cell-sub">${meta.join('')}</div>`;
+        h += `</div>`;
+        tdGen.innerHTML = h;
+        tr.appendChild(tdGen);
+      }
+
+      const tdTeam = document.createElement('td');
+      tdTeam.className = 'ecell col-team';
+      const mark = document.createElement('div');
+      mark.className = 'team-mark block';
+      mark.style.borderLeftColor = activeTeam.color;
+      mark.style.background = hexRgba(activeTeam.color, 0.045);
+
+      const loc = localCover[i];
+      const teamRange = teamCover[i] ? `${rows[teamBounds.start[i]].ini}–${rows[teamBounds.end[i]].fim || rows[teamBounds.end[i]].ini || '—'}` : '';
+      let h = `<div class="block-head"><span class="block-time">${teamRange}</span></div><div class="cell-main" style="color:${activeTeam.color}">${teamCover[i] ? teamCover[i] : '<span class=\"muted\">—</span>'}</div>`;
+      const meta = [];
+      if (loc) meta.push(`<span class="tag">📍 ${loc}</span>`);
+      if (meta.length) h += `<div class="cell-sub">${meta.join('')}</div>`;
+      mark.innerHTML = h;
+      tdTeam.appendChild(mark);
+      tr.appendChild(tdTeam);
+
+      tbody.appendChild(tr);
+    }
+    return;
+  }
+
+  const genIdx = buildBlockIndex(generalBlocks, n);
+  const teamIdx = buildBlockIndex(teamBlocks, n);
+
+  let rendered = 0;
+  for (let i = 0; i < n; i++) {
+    const tr = document.createElement('tr');
+
+    const tdTime = document.createElement('td');
+    tdTime.className = 'time-cell col-time';
+    tdTime.innerHTML = `<div class="time-stack"><strong>${rows[i].ini}</strong><span>${rows[i].fim || '—'}</span></div>`;
+    tr.appendChild(tdTime);
+
+    if (showGen) {
+      if (!genIdx.skip[i]) {
+        const tdGen = document.createElement('td');
+        tdGen.className = 'gcell col-general';
+
+        const b = genIdx.start.get(i);
+        if (b) {
+          tdGen.classList.add('filled');
+          tdGen.rowSpan = (b.e - b.s + 1);
+          const loc = localCover[b.s];
+          const range = `${rows[b.s].ini}–${rows[b.e].fim || rows[b.e].ini || '—'}`;
+          let h = `<div class="block"><div class="block-head"><span class="block-time">${range}</span></div><div class="cell-main">${b.text ? b.text : '<span class=\"muted\">—</span>'}</div>`;
+          const meta = [];
+          if (loc) meta.push(`<span class="tag">📍 ${loc}</span>`);
+          if (meta.length) h += `<div class="cell-sub">${meta.join('')}</div>`;
+          h += `</div>`;
+          tdGen.innerHTML = h;
+        } else {
+          tdGen.classList.add('empty-cell');
+          tdGen.innerHTML = '&nbsp;';
+        }
+        tr.appendChild(tdGen);
+      }
+    }
+
+    if (!teamIdx.skip[i]) {
+      const tdTeam = document.createElement('td');
+      tdTeam.className = 'ecell col-team';
+
+      const b = teamIdx.start.get(i);
+      if (b) {
+        tdTeam.classList.add('filled');
+        tdTeam.rowSpan = (b.e - b.s + 1);
+        const mark = document.createElement('div');
+        mark.className = 'team-mark block';
+        mark.style.borderLeftColor = activeTeam.color;
+        mark.style.background = hexRgba(activeTeam.color, 0.045);
+
+        const loc = localCover[b.s];
+        const range = `${rows[b.s].ini}–${rows[b.e].fim || rows[b.e].ini || '—'}`;
+        let h = `<div class="block-head"><span class="block-time">${range}</span></div><div class="cell-main" style="color:${activeTeam.color}">${b.text ? b.text : '<span class=\"muted\">—</span>'}</div>`;
+        const meta = [];
+        if (loc) meta.push(`<span class="tag">📍 ${loc}</span>`);
+        if (meta.length) h += `<div class="cell-sub">${meta.join('')}</div>`;
+        mark.innerHTML = h;
+        tdTeam.appendChild(mark);
+      } else {
+        tdTeam.classList.add('empty-cell');
+        tdTeam.innerHTML = '&nbsp;';
+      }
+      tr.appendChild(tdTeam);
+    }
+
+    tbody.appendChild(tr);
+    rendered++;
+  }
+
+  if (rendered === 0) {
+    tbody.innerHTML = `<tr><td colspan="${showGen ? 3 : 2}"><div class="empty-state"><div class="empty-icon">✦</div><p>Nenhuma atividade encontrada para esta seleção.</p></div></td></tr>`;
+  }
+}
+
+document.querySelectorAll('.day-tab').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.day-tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); activeDay=btn.dataset.day; render();
+  };
+});
+
+document.getElementById('btnShow').onclick = () => {
+  showGen=true;
+  document.body.classList.remove('hide-general');
+  document.getElementById('btnShow').classList.add('active');
+  document.getElementById('btnHide').classList.remove('active');
+  render();
+};
+document.getElementById('btnHide').onclick = () => {
+  showGen=false;
+  document.body.classList.add('hide-general');
+  document.getElementById('btnHide').classList.add('active');
+  document.getElementById('btnShow').classList.remove('active');
+  render();
+};
+
+let lastMobile = window.matchMedia('(max-width: 720px)').matches;
+window.addEventListener('resize', () => {
+  const now = window.matchMedia('(max-width: 720px)').matches;
+  if (now !== lastMobile) {
+    lastMobile = now;
+    render();
+  }
+});
+
+render();
+</script>
+</body>
+</html>

@@ -121,6 +121,7 @@ body::before {
 
 /* SCHEDULE GRID */
 .schedule-wrap { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: #fff; animation: fadeIn 0.3s ease; }
+.schedule-scroll { width: 100%; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
 .schedule-table { width: 100%; border-collapse: separate; border-spacing: 0; }
 .schedule-table thead th { background: var(--cream); border-bottom: 1px solid var(--line); padding: 12px 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-align: left; }
 .schedule-table thead th.col-time { width: 92px; text-align: right; }
@@ -158,14 +159,29 @@ body.hide-general .ecell { border-left: none; }
 .doc-wrap { border: 1px solid var(--line); border-radius: var(--r); background: #fff; padding: 1.25rem; }
 .doc-intro { padding: 1rem; border: 1px solid rgba(11,27,47,0.1); border-radius: var(--r); background: linear-gradient(180deg, rgba(238,242,249,0.7), rgba(251,252,255,1)); margin-bottom: 1.25rem; }
 .doc-intro p { font-size: 14px; line-height: 1.6; color: var(--muted); }
+.doc-controls { margin-bottom: 1.25rem; }
 .doc-section { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 600; letter-spacing: -0.01em; margin-top: 1.4rem; margin-bottom: 0.35rem; color: var(--ink); }
 .doc-day { font-size: 11px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-top: 0.75rem; margin-bottom: 0.6rem; }
 .doc-cards { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 0.75rem; }
 .doc-card { border: 1px solid rgba(11,27,47,0.12); border-radius: var(--r); padding: 12px 12px; background: #fff; }
 .doc-time { font-size: 12px; font-weight: 800; color: var(--muted); letter-spacing: 0.02em; }
+.doc-meta { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px; }
 .doc-title { margin-top: 6px; font-size: 15px; font-weight: 800; line-height: 1.3; color: var(--ink); }
 .doc-desc { margin-top: 8px; font-size: 14px; line-height: 1.55; color: var(--muted); }
 .doc-desc br, .doc-title br { line-height: 1.4; }
+.doc-day-block { display: none; }
+.doc-day-block.active { display: block; }
+
+/* TEAMS */
+.teams-wrap { border: 1px solid var(--line); border-radius: var(--r); background: #fff; overflow: hidden; }
+.teams-scroll { width: 100%; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+.teams-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 760px; }
+.teams-table thead th { background: var(--cream); border-bottom: 1px solid var(--line); padding: 12px 12px; font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-align: left; }
+.teams-table tbody td { padding: 12px 12px; vertical-align: top; border-bottom: 1px solid rgba(11,27,47,0.08); }
+.teams-table tbody tr:last-child td { border-bottom: none; }
+.teams-name { font-weight: 800; color: var(--ink); }
+.teams-coord { font-weight: 700; color: var(--ink); }
+.teams-desc { color: var(--muted); font-size: 14px; line-height: 1.55; }
 
 /* EMPTY */
 .empty-state { text-align: center; padding: 4rem 1rem; }
@@ -191,18 +207,12 @@ button:focus-visible {
   .page-tab { padding: 10px 10px; }
   .stat-bar { gap: 1rem; padding: 0.9rem 1rem; }
   .stat-team { margin-left: 0; text-align: left; }
-  .schedule-table thead { display: none; }
-  .schedule-table, .schedule-table tbody, .schedule-table tr, .schedule-table td { display: block; width: 100%; }
-  .schedule-table tbody td { border-bottom: none; }
-  .schedule-table tbody tr { border-bottom: 1px solid rgba(11,27,47,0.08); }
-  .schedule-table tbody tr:last-child { border-bottom: none; }
-  .time-cell { text-align: left; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; background: var(--cream); border-bottom: 1px solid rgba(11,27,47,0.08); }
-  .time-stack strong { display: inline; }
-  .gcell, .ecell { padding: 12px 12px; }
-  .ecell { border-left: none; border-top: 1px dashed rgba(11,27,47,0.14); }
-  .cell-main { font-size: 15px; }
-  body.hide-general .time-cell { border-bottom: none; }
-  body.hide-general .ecell { border-top: none; }
+  .schedule-table { min-width: 860px; }
+  .schedule-table { display: table; }
+  .schedule-table thead { display: table-header-group; }
+  .schedule-table tbody { display: table-row-group; }
+  .schedule-table tr { display: table-row; }
+  .schedule-table th, .schedule-table td { display: table-cell; }
   .doc-wrap { padding: 1rem; }
   .doc-section { font-size: 1.7rem; }
 }
@@ -212,7 +222,7 @@ button:focus-visible {
 
 <header class="site-header">
   <div class="brand">
-    <img src="Logo-aplicacao.png" alt="Retiro de Crisma — Manda teu Fogo">
+    <img src="Logo.png" alt="Retiro de Crisma — Manda teu Fogo">
   </div>
   <div class="eyebrow">Retiro de Crisma &mdash; 2026</div>
   <h1>Manda teu <em>Fogo</em></h1>
@@ -223,6 +233,7 @@ button:focus-visible {
   <div class="page-tabs" role="tablist" aria-label="Seções">
     <button class="page-tab active" id="tabCronograma" role="tab" aria-selected="true" aria-controls="pageCronograma">Cronograma</button>
     <button class="page-tab" id="tabAtividades" role="tab" aria-selected="false" aria-controls="pageAtividades">Atividades dos crismandos</button>
+    <button class="page-tab" id="tabEquipes" role="tab" aria-selected="false" aria-controls="pageEquipes">Equipes</button>
   </div>
 
   <section class="page active" id="pageCronograma" role="tabpanel" aria-labelledby="tabCronograma">
@@ -262,16 +273,18 @@ button:focus-visible {
 
   <div class="section-divider"><span id="secLabel">Programação</span></div>
   <div class="schedule-wrap">
-    <table class="schedule-table">
-      <thead>
-        <tr>
-          <th class="col-time">Horário</th>
-          <th class="col-general" id="generalHeader">Geral (crismandos)</th>
-          <th class="col-team" id="teamHeader">Equipe</th>
-        </tr>
-      </thead>
-      <tbody id="schedule"></tbody>
-    </table>
+    <div class="schedule-scroll">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th class="col-time">Horário</th>
+            <th class="col-general" id="generalHeader">Geral (crismandos)</th>
+            <th class="col-team" id="teamHeader">Equipe</th>
+          </tr>
+        </thead>
+        <tbody id="schedule"></tbody>
+      </table>
+    </div>
   </div>
   </section>
 
@@ -283,6 +296,18 @@ button:focus-visible {
         <p>Este documento apresenta a sequência de atividades dia a dia, com horários e tópicos, destinada a ser a visão geral do retiro.</p>
       </div>
 
+      <div class="doc-controls">
+        <div class="control-group">
+          <span class="control-label">Dia</span>
+          <div class="day-tabs" id="docDayTabs">
+            <button class="day-tab active" data-doc-day="Sexta">Sexta-feira</button>
+            <button class="day-tab" data-doc-day="Sábado">Sábado</button>
+            <button class="day-tab" data-doc-day="Domingo">Domingo</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-day-block active" data-day="Sexta">
       <h2 class="doc-section">DIA 1 - Reconhecer, decidir e começar de novo.</h2>
       <h3 class="doc-day">Sexta</h3>
       <div class="doc-cards">
@@ -327,7 +352,9 @@ button:focus-visible {
           <div class="doc-desc">Encerramento do primeiro dia<br>Observação: Direcionamento para os quartos, incentivando o silêncio e a oração pessoal.</div>
         </article>
       </div>
+      </div>
 
+      <div class="doc-day-block" data-day="Sábado">
       <h2 class="doc-section">DIA 2 - Ser transformado pelo fogo do Espírito Santo.</h2>
       <h3 class="doc-day">Sábado</h3>
       <div class="doc-cards">
@@ -432,7 +459,9 @@ button:focus-visible {
           <div class="doc-desc">Descanso</div>
         </article>
       </div>
+      </div>
 
+      <div class="doc-day-block" data-day="Domingo">
       <h2 class="doc-section">DIA 3 - Ser Ser luz no mundo.</h2>
       <h3 class="doc-day">Domingo</h3>
       <div class="doc-cards">
@@ -512,6 +541,71 @@ button:focus-visible {
           <div class="doc-desc">Celebração de encerramento do retiro, momento em que todos os jovens, equipes e comunidade se reúnem para agradecer a Deus pelas graças vividas durante os dias de retiro. Será o momento de entregar a Deus tudo o que foi experimentado, fortalecendo o compromisso de viver na vida diária aquilo que foi aprendido e vivido. Ao final da Missa iremos anunciar a equipe vencedora do retiro, que serão todas.</div>
         </article>
       </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="pageEquipes" role="tabpanel" aria-labelledby="tabEquipes">
+    <div class="section-divider"><span>Equipes</span></div>
+    <div class="teams-wrap">
+      <div class="teams-scroll">
+        <table class="teams-table">
+          <thead>
+            <tr>
+              <th>Equipe</th>
+              <th>Coordenador(a)</th>
+              <th>Responsabilidades</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="teams-name">Coordenação geral</td>
+              <td class="teams-coord">Janete</td>
+              <td class="teams-desc">Coordenação geral do retiro: alinhamento da programação, integração entre equipes, tomada de decisões, acompanhamento dos horários e resolução de imprevistos.</td>
+            </tr>
+            <tr>
+              <td class="teams-name">Guardiões</td>
+              <td class="teams-coord">Duda</td>
+              <td class="teams-desc">Liderança dos guardiões e suporte de organização: acolhida, direcionamento dos crismandos, disciplina, movimentação entre ambientes e apoio direto nos momentos-chave.</td>
+            </tr>
+            <tr>
+              <td class="teams-name">Movimento</td>
+              <td class="teams-coord">Dani</td>
+              <td class="teams-desc">Coordenação da decoração, teatro e ambientação dos momentos: preparação de cenários e dinâmicas, condução de ações fora da capela e suporte às atividades de animação.</td>
+            </tr>
+            <tr>
+              <td class="teams-name">Providência</td>
+              <td class="teams-coord">Jully</td>
+              <td class="teams-desc">Coordenação da cozinha e copa: organização das refeições, logística de alimentos, distribuição, controle de horários de serviço e manutenção da rotina do refeitório 1 e 2.</td>
+            </tr>
+            <tr>
+              <td class="teams-name">Secretaria</td>
+              <td class="teams-coord">Isabela</td>
+              <td class="teams-desc">Coordenação da secretaria e apoio na limpeza: listas, comunicação interna, organização de materiais, suporte na logística e acompanhamento de necessidades do retiro.</td>
+            </tr>
+            <tr>
+              <td class="teams-name">Saúde</td>
+              <td class="teams-coord">Nelson</td>
+              <td class="teams-desc">Coordenação da enfermagem: primeiros socorros, acompanhamento de medicações autorizadas, monitoramento de bem-estar e acionamento de suporte externo se necessário.</td>
+            </tr>
+            <tr>
+              <td class="teams-name">Interseção</td>
+              <td class="teams-coord">Fran</td>
+              <td class="teams-desc">Coordenação da intercessão: oração constante pelo retiro, suporte espiritual, organização de intenções e acompanhamento de momentos de oração e adoração.</td>
+            </tr>
+            <tr>
+              <td class="teams-name">Servos do Altar</td>
+              <td class="teams-coord">Amanda</td>
+              <td class="teams-desc">Coordenação da capela, tempos e tesouraria: preparação litúrgica, organização do espaço de oração, controle de tempos das atividades na capela e suporte administrativo.</td>
+            </tr>
+            <tr>
+              <td class="teams-name">Missão</td>
+              <td class="teams-coord">Márcio</td>
+              <td class="teams-desc">Coordenação de ações fora do espaço do retiro: logística de deslocamentos, interface com paróquia/comunidade, apoio em entradas/saídas e necessidades externas.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 </main>
@@ -521,11 +615,11 @@ button:focus-visible {
 <script>
 const TEAMS = [
   { key:'guardiao',    label:'Guardiões',                    color:'#534AB7' },
-  { key:'movimento',   label:'Movimento',                    color:'#0F6E56' },
-  { key:'providencia', label:'Providência (Cozinha e Copa)', color:'#B07A15' },
+  { key:'movimento',   label:'Movimento - Decororação/Ações',    color:'#0F6E56' },
+  { key:'providencia', label:'Providência - Cozinha/Copa', color:'#B07A15' },
   { key:'limpeza',     label:'Limpeza',                      color:'#185FA5' },
-  { key:'som',         label:'Servos do Altar — Som',        color:'#8B2E5A' },
-  { key:'missao',      label:'Missão',                       color:'#4A4A4A' },
+  { key:'som',         label:'Servos do Altar — Som/Capela',        color:'#8B2E5A' },
+  { key:'missao',      label:'Missão - Atividades externas',                       color:'#4A4A4A' },
 ];
 
 const SCHEDULE = {"days":{"Sexta":{"rows":[{"ini":"19:00","fim":"19:15"},{"ini":"19:15","fim":"19:30"},{"ini":"19:30","fim":"19:45"},{"ini":"19:45","fim":"20:00"},{"ini":"20:00","fim":"20:15"},{"ini":"20:15","fim":"20:30"},{"ini":"20:30","fim":"20:45"},{"ini":"20:45","fim":"21:00"},{"ini":"21:00","fim":"21:15"},{"ini":"21:15","fim":"21:30"},{"ini":"21:30","fim":"21:45"},{"ini":"21:45","fim":"22:00"},{"ini":"22:00","fim":"22:15"},{"ini":"22:15","fim":"22:30"},{"ini":"22:30","fim":"22:45"},{"ini":"22:45","fim":"23:00"},{"ini":"23:00","fim":"23:15"},{"ini":"23:15","fim":"23:30"},{"ini":"23:30","fim":"23:45"},{"ini":"23:45","fim":"00:00"},{"ini":"00:00","fim":"00:15"},{"ini":"00:15","fim":"00:30"},{"ini":"00:30","fim":"00:45"}],"local":[{"s":0,"e":3,"text":"Paróquia"},{"s":10,"e":10,"text":"Hall de entrada"},{"s":11,"e":16,"text":"Capela"},{"s":17,"e":18,"text":"Hall de entrada"},{"s":19,"e":21,"text":"Capela"},{"s":22,"e":22,"text":"Quartos"}],"general":[{"s":0,"e":2,"text":"Chegada e Acolhimento na Paróquia\n+\nLanche"},{"s":3,"e":3,"text":"Palavra de Acolhida, Oração Inicial e Leitura Bíblica"},{"s":4,"e":9,"text":"Deslocamento"},{"s":10,"e":10,"text":"Caminhada do desafio e tentação"},{"s":11,"e":16,"text":"Pregação - Vícios e sexualidade"},{"s":17,"e":18,"text":"Ceia"},{"s":19,"e":21,"text":"Louvor \"acalma seu coração\" - Entrada do Santíssimo Sacramento"},{"s":22,"e":22,"text":"Banho e repouso"}],"teams":{"guardiao":[{"s":0,"e":2,"text":"Recepciona os jovens"},{"s":10,"e":21,"text":"Acompanhamento dos crismandos"},{"s":22,"e":22,"text":"Direcionamento dos crismandos"}],"movimento":[{"s":0,"e":9,"text":"Preparação da \"Caminhada do Desafio e tentação\""},{"s":10,"e":10,"text":"Execução - Caminhada do Desafio"},{"s":11,"e":13,"text":"Retirar do ônibus e organizar as malas na sala de palestra"},{"s":14,"e":16,"text":"Retirada das luzes/desmobilização da caminhada do desafio e tentação"},{"s":17,"e":18,"text":"Organizar cadeiras na capela"},{"s":21,"e":21,"text":"Ligar os chuveiros"},{"s":22,"e":22,"text":"Direcionamento dos crismandos"}],"providencia":[{"s":6,"e":8,"text":"Servir cachorro quente para voluntários locais na copa"},{"s":14,"e":16,"text":"Organizar cachorro quente  dos crismandos"},{"s":17,"e":18,"text":"Servir cachorro quente para crismandos"},{"s":19,"e":21,"text":"Limpeza e organização"},{"s":22,"e":22,"text":"Dormir"}],"limpeza":[{"s":10,"e":10,"text":"Execução - Caminhada do Desafio"},{"s":17,"e":18,"text":"Sobreaviso - Ceia"},{"s":19,"e":21,"text":"Limpeza da entrada, pós ceia"}],"som":[{"s":0,"e":9,"text":"Preparação da \"Caminhada do Desafio\""},{"s":10,"e":16,"text":"Presença na capela"},{"s":19,"e":21,"text":"Presença na capela"}],"missao":[{"s":0,"e":3,"text":"Organizar e servir café no salão paroquial"}]}},"Sábado":{"rows":[{"ini":"06:00","fim":"06:15"},{"ini":"06:15","fim":"06:30"},{"ini":"06:30","fim":"06:45"},{"ini":"06:45","fim":"07:00"},{"ini":"07:00","fim":"07:15"},{"ini":"07:15","fim":"07:30"},{"ini":"07:30","fim":"07:45"},{"ini":"07:45","fim":"08:00"},{"ini":"08:00","fim":"08:15"},{"ini":"08:15","fim":"08:30"},{"ini":"08:30","fim":"08:45"},{"ini":"08:45","fim":"09:00"},{"ini":"09:00","fim":"09:15"},{"ini":"09:15","fim":"09:30"},{"ini":"09:30","fim":"09:45"},{"ini":"09:45","fim":"10:00"},{"ini":"10:00","fim":"10:15"},{"ini":"10:15","fim":"10:30"},{"ini":"10:30","fim":"10:45"},{"ini":"10:45","fim":"11:00"},{"ini":"11:00","fim":"11:15"},{"ini":"11:15","fim":"11:30"},{"ini":"11:30","fim":"11:45"},{"ini":"11:45","fim":"12:00"},{"ini":"12:00","fim":"12:15"},{"ini":"12:15","fim":"12:30"},{"ini":"12:30","fim":"12:45"},{"ini":"12:45","fim":"13:00"},{"ini":"13:00","fim":"13:15"},{"ini":"13:15","fim":"13:30"},{"ini":"13:30","fim":"13:45"},{"ini":"13:45","fim":"14:00"},{"ini":"14:00","fim":"14:15"},{"ini":"14:15","fim":"14:30"},{"ini":"14:30","fim":"14:45"},{"ini":"14:45","fim":"15:00"},{"ini":"15:00","fim":"15:15"},{"ini":"15:15","fim":"15:30"},{"ini":"15:30","fim":"15:45"},{"ini":"15:45","fim":"16:00"},{"ini":"16:00","fim":"16:15"},{"ini":"16:15","fim":"16:30"},{"ini":"16:30","fim":"16:45"},{"ini":"16:45","fim":"17:00"},{"ini":"17:00","fim":"17:15"},{"ini":"17:15","fim":"17:30"},{"ini":"17:30","fim":"17:45"},{"ini":"17:45","fim":"18:00"},{"ini":"18:00","fim":"18:15"},{"ini":"18:15","fim":"18:30"},{"ini":"18:30","fim":"18:45"},{"ini":"18:45","fim":"19:00"},{"ini":"19:00","fim":"19:15"},{"ini":"19:15","fim":"19:30"},{"ini":"19:30","fim":"19:45"},{"ini":"19:45","fim":"20:00"},{"ini":"20:00","fim":"20:15"},{"ini":"20:15","fim":"20:30"},{"ini":"20:30","fim":"20:45"},{"ini":"20:45","fim":"21:00"},{"ini":"21:00","fim":"21:15"},{"ini":"21:15","fim":"21:30"},{"ini":"21:30","fim":"21:45"},{"ini":"21:45","fim":"22:00"},{"ini":"22:00","fim":"22:15"},{"ini":"22:15","fim":"22:30"},{"ini":"22:30","fim":"22:45"},{"ini":"22:45","fim":"23:00"},{"ini":"23:00","fim":"23:15"},{"ini":"23:15","fim":"23:30"},{"ini":"23:30","fim":"23:45"},{"ini":"23:45","fim":"00:00"},{"ini":"00:00","fim":"00:15"},{"ini":"00:15","fim":"00:30"},{"ini":"00:30","fim":"00:45"}],"local":[{"s":3,"e":5,"text":"Quartos"},{"s":6,"e":7,"text":"Capela"},{"s":8,"e":10,"text":"Refeitório e Sala de Palestras"},{"s":11,"e":17,"text":"Capela"},{"s":19,"e":23,"text":"Área externa"},{"s":24,"e":27,"text":"Refeitório e Sala de Palestras"},{"s":29,"e":31,"text":"Capela"},{"s":32,"e":39,"text":"Área externa"},{"s":40,"e":43,"text":"Refeitório e Sala de Palestras"},{"s":44,"e":47,"text":"Capela"},{"s":48,"e":51,"text":"Quartos"},{"s":52,"e":57,"text":"Área externa"},{"s":58,"e":63,"text":"Refeitório e Sala de Palestras"},{"s":64,"e":71,"text":"Capela"},{"s":72,"e":72,"text":"Hall de entrada"},{"s":73,"e":74,"text":"Quartos"}],"general":[{"s":3,"e":5,"text":"Acordar"},{"s":6,"e":7,"text":"Animação e Oração da manhã\n+ Apresentação da divisão das equipes"},{"s":8,"e":10,"text":"Café da manhã"},{"s":11,"e":11,"text":"Concentração na Capela e animação"},{"s":12,"e":17,"text":"Pregação - Sede santo sem deixar de ser jovens (Angelo)"},{"s":18,"e":18,"text":"INTERVALO - Banheiro/Água"},{"s":19,"e":23,"text":"Criar grito de guerra\n+\nGincana das Cores"},{"s":24,"e":27,"text":"Almoço"},{"s":28,"e":28,"text":"INTERVALO - Escovar os dentes"},{"s":29,"e":31,"text":"Reencontro: Animação + Teatro (ou apresentação do grito de guerra)"},{"s":32,"e":39,"text":"Circuito dos Dons do Espírito Santo"},{"s":40,"e":43,"text":"Pregação - Jesus: nos aceita do jeito que estamos"},{"s":44,"e":47,"text":"Café da tarde"},{"s":48,"e":51,"text":"Banho"},{"s":52,"e":52,"text":"Concentração na área externa"},{"s":53,"e":57,"text":"Queima dos pecados"},{"s":58,"e":63,"text":"Jantar a luz de velas"},{"s":64,"e":71,"text":"Pregação - O Espírito Santo: Nosso Guia e Consolador\n+\nGrande Clamor ao Espírito Santo \n+\nAdoração"},{"s":72,"e":72,"text":"Corredor do amor"},{"s":73,"e":74,"text":"Dormir"}],"teams":{"guardiao":[{"s":0,"e":2,"text":"Acordar"},{"s":3,"e":5,"text":"Acordar e reunir as equipes"},{"s":6,"e":49,"text":"Acompanhar crismandos em todas as tarefas"},{"s":50,"e":54,"text":"Banho (se arrumar para servir o jantar)"},{"s":55,"e":57,"text":"Jantar"},{"s":58,"e":63,"text":"Servir o jantar"},{"s":64,"e":71,"text":"Acompanhamento dos crismandos"},{"s":72,"e":72,"text":"Corredor do amor"},{"s":73,"e":74,"text":"Dormir"}],"movimento":[{"s":0,"e":2,"text":"Acordar"},{"s":3,"e":5,"text":"Café da manhã"},{"s":6,"e":11,"text":"Postos de guarda"},{"s":12,"e":17,"text":"Preparações para gincana das tintas"},{"s":18,"e":18,"text":"Postos de guarda"},{"s":19,"e":21,"text":"Apoio na gincana"},{"s":22,"e":23,"text":"Almoço"},{"s":24,"e":26,"text":"Descanso"},{"s":27,"e":27,"text":"Postos de guarda"},{"s":28,"e":31,"text":"Preparação do Circuito"},{"s":32,"e":39,"text":"Realizar circuito"},{"s":40,"e":42,"text":"Café da tarde junto com cirsmandos"},{"s":43,"e":46,"text":"Postos de guarda"},{"s":47,"e":47,"text":"Ligar chuveiros"},{"s":48,"e":50,"text":"Preparação da fogueira"},{"s":51,"e":54,"text":"Direcionamento e apoio na fogueira"},{"s":55,"e":57,"text":"Jantar"},{"s":58,"e":63,"text":"Postos de guarda"},{"s":64,"e":68,"text":"Banho"},{"s":69,"e":71,"text":"Organizar corredor do amor"},{"s":72,"e":72,"text":"Corredor do amor"},{"s":73,"e":74,"text":"Postos de guarda"}],"providencia":[{"s":0,"e":2,"text":"Preparação do café da manhã"},{"s":3,"e":7,"text":"Café da manhã das equipes"},{"s":8,"e":10,"text":"Café da manhã dos crismandos"},{"s":22,"e":23,"text":"Almoço das equipes"},{"s":24,"e":27,"text":"Almoço dos crismandos"},{"s":28,"e":31,"text":"Almoço da cozinha e descanso"},{"s":40,"e":43,"text":"Café da tarde das equipes"},{"s":44,"e":47,"text":"Café da tarde dos crismandos"},{"s":48,"e":49,"text":"Café da tarde da cozinha"},{"s":55,"e":57,"text":"Jantar das equipes"},{"s":58,"e":63,"text":"Jantar dos crismandos"},{"s":64,"e":66,"text":"Jantar da cozinha"},{"s":69,"e":71,"text":"Ceia das equipes (bolachas e chá)"},{"s":73,"e":74,"text":"Dormir"}],"limpeza":[{"s":0,"e":2,"text":"Acordar"},{"s":3,"e":5,"text":"Café da Manhã"},{"s":6,"e":7,"text":"Apoio na organização do refeitório"},{"s":8,"e":13,"text":"Vistoria dos quartos"},{"s":14,"e":18,"text":"Limpeza do refeitório 1 e 2"},{"s":19,"e":21,"text":"Limpeza e organização da capela"},{"s":22,"e":23,"text":"Almoço"},{"s":24,"e":27,"text":"Sobreaviso nos refeitórios"},{"s":28,"e":31,"text":"Descanso"},{"s":32,"e":37,"text":"Limpeza do refeitório 1 e 2"},{"s":44,"e":47,"text":"Sobreaviso nos refeitórios"},{"s":48,"e":51,"text":"Limpeza do refeitório 1 e 2"},{"s":52,"e":54,"text":"Limpeza e organização da capela"},{"s":55,"e":57,"text":"Jantar"},{"s":58,"e":63,"text":"Organização dos banheiros"},{"s":64,"e":71,"text":"Limpeza do refeitório 1 e 2"},{"s":73,"e":74,"text":"Dormir"}],"som":[{"s":0,"e":2,"text":"Acordar"},{"s":3,"e":5,"text":"Café da manhã"},{"s":6,"e":7,"text":"Animação na capela"},{"s":11,"e":17,"text":"Presença na capela"},{"s":22,"e":23,"text":"Almoço"},{"s":24,"e":27,"text":"Música ambiente (sistema central)"},{"s":28,"e":31,"text":"Presença na capela"},{"s":40,"e":43,"text":"Presença na capela"},{"s":44,"e":50,"text":"Música ambiente (sistema central)\n+\nCafé da tarde"},{"s":51,"e":54,"text":"Presença na Queima dos pecados"},{"s":55,"e":57,"text":"Jantar / Presença na Queima dos pecados (revezar)"},{"s":58,"e":63,"text":"Música ambiente (sistema central)"},{"s":64,"e":71,"text":"Presença na capela"},{"s":73,"e":74,"text":"Dormir"}],"missao":[]}},"Domingo":{"rows":[{"ini":"06:00","fim":"06:15"},{"ini":"06:15","fim":"06:30"},{"ini":"06:30","fim":"06:45"},{"ini":"06:45","fim":"07:00"},{"ini":"07:00","fim":"07:15"},{"ini":"07:15","fim":"07:30"},{"ini":"07:30","fim":"07:45"},{"ini":"07:45","fim":"08:00"},{"ini":"08:00","fim":"08:15"},{"ini":"08:15","fim":"08:30"},{"ini":"08:30","fim":"08:45"},{"ini":"08:45","fim":"09:00"},{"ini":"09:00","fim":"09:15"},{"ini":"09:15","fim":"09:30"},{"ini":"09:30","fim":"09:45"},{"ini":"09:45","fim":"10:00"},{"ini":"10:00","fim":"10:15"},{"ini":"10:15","fim":"10:30"},{"ini":"10:30","fim":"10:45"},{"ini":"10:45","fim":"11:00"},{"ini":"11:00","fim":"11:15"},{"ini":"11:15","fim":"11:30"},{"ini":"11:30","fim":"11:45"},{"ini":"11:45","fim":"12:00"},{"ini":"12:00","fim":"12:15"},{"ini":"12:15","fim":"12:30"},{"ini":"12:30","fim":"12:45"},{"ini":"12:45","fim":"13:00"},{"ini":"13:00","fim":"13:15"},{"ini":"13:15","fim":"13:30"},{"ini":"13:30","fim":"13:45"},{"ini":"13:45","fim":"14:00"},{"ini":"14:00","fim":"14:15"},{"ini":"14:15","fim":"14:30"},{"ini":"14:30","fim":"14:45"},{"ini":"14:45","fim":"15:00"},{"ini":"15:00","fim":"15:15"},{"ini":"15:15","fim":"15:30"},{"ini":"15:30","fim":"15:45"},{"ini":"15:45","fim":"16:00"},{"ini":"16:00","fim":"16:15"},{"ini":"16:15","fim":"16:30"},{"ini":"16:30","fim":"16:45"},{"ini":"16:45","fim":"17:00"},{"ini":"17:00","fim":"17:15"},{"ini":"17:15","fim":"17:30"},{"ini":"17:30","fim":"17:45"},{"ini":"17:45","fim":"18:00"},{"ini":"18:00","fim":"18:15"},{"ini":"18:15","fim":"18:30"},{"ini":"18:30","fim":"18:45"},{"ini":"18:45","fim":"19:00"},{"ini":"19:00","fim":"19:15"},{"ini":"19:15","fim":"19:30"},{"ini":"19:30","fim":"19:45"},{"ini":"19:45","fim":"20:00"}],"local":[{"s":3,"e":5,"text":"Quartos"},{"s":6,"e":7,"text":"Capela"},{"s":8,"e":10,"text":"Refeitório e Sala de Palestras"},{"s":11,"e":14,"text":"Capela"},{"s":16,"e":23,"text":"Capela"},{"s":24,"e":28,"text":"Refeitório e Sala de Palestras"},{"s":30,"e":35,"text":"Capela"},{"s":36,"e":39,"text":"Hall de entrada"}],"general":[{"s":3,"e":5,"text":"Acordar"},{"s":6,"e":7,"text":"Oração da manhã  + Animação"},{"s":8,"e":10,"text":"Café da manhã"},{"s":11,"e":11,"text":"Concentração na Capela"},{"s":12,"e":14,"text":"Entrega das camisetas e grito de guerra"},{"s":15,"e":15,"text":"Intervalo"},{"s":16,"e":23,"text":"Momento Mariano"},{"s":24,"e":28,"text":"Almoço"},{"s":29,"e":29,"text":"INTERVALO - Escovar os dentes (colocar camiseta)"},{"s":30,"e":35,"text":"Pregação - Família: O sonho de Deus em nossas vidas\n+\nEntrega das cartas e lembranças"},{"s":36,"e":39,"text":"Lanche e partilha"},{"s":40,"e":41,"text":"Organização para saída"},{"s":42,"e":50,"text":"Deslocamento"},{"s":51,"e":51,"text":"Acomodação"},{"s":52,"e":55,"text":"Santa Missa"}],"teams":{"guardiao":[{"s":0,"e":2,"text":"Despertar"},{"s":3,"e":5,"text":"Acordar e reunir as equipes"},{"s":6,"e":35,"text":"Acompanhar crismandos em todas as tarefas"},{"s":36,"e":39,"text":"Lanche/Café da tarde"},{"s":40,"e":41,"text":"Organização para saída"},{"s":42,"e":50,"text":"Deslocamento"}],"movimento":[{"s":0,"e":2,"text":"Acordar"},{"s":3,"e":5,"text":"Café da manhã"},{"s":6,"e":11,"text":"Preparação das representações das Maria(s) para o Movimento Mariano"},{"s":12,"e":14,"text":"Entrega das camisas"},{"s":15,"e":21,"text":"Participação no momento mariano"},{"s":22,"e":23,"text":"Almoço"},{"s":24,"e":29,"text":"Postos de guarda"},{"s":30,"e":35,"text":"Desmoibilizar refeitório 2 (sala de palestras)"},{"s":36,"e":39,"text":"Lanche/Café da tarde"},{"s":40,"e":41,"text":"Organização para saída"},{"s":42,"e":50,"text":"Organização geral do local"}],"providencia":[{"s":0,"e":2,"text":"Preparação do café da manhã"},{"s":3,"e":7,"text":"Café da manhã das equipes"},{"s":8,"e":10,"text":"Café da manhã dos crismandos"},{"s":22,"e":23,"text":"Almoço das equipes"},{"s":24,"e":28,"text":"Almoço dos crismandos"},{"s":29,"e":31,"text":"Almoço da cozinha"},{"s":36,"e":39,"text":"Lanche da partilha"},{"s":40,"e":47,"text":"Limpeza e organização da cozinha"}],"limpeza":[{"s":0,"e":2,"text":"Acordar"},{"s":3,"e":5,"text":"Café da Manhã"},{"s":6,"e":7,"text":"Organização do refeitório"},{"s":8,"e":10,"text":"Sobreaviso nos refeitórios"},{"s":11,"e":13,"text":"Limpeza do refeitório 1 e 2"},{"s":14,"e":21,"text":"Vistoria dos quartos e organização dos banheiros"},{"s":22,"e":23,"text":"Almoço"},{"s":24,"e":28,"text":"Sobreaviso nos refeitórios"},{"s":40,"e":47,"text":"Remoção dos lixos"}],"som":[{"s":0,"e":2,"text":"Acordar"},{"s":3,"e":5,"text":"Café da Manhã"},{"s":6,"e":7,"text":"Presença na capela"},{"s":8,"e":10,"text":"Música ambiente (sistema central)"},{"s":11,"e":23,"text":"Presença na capela"},{"s":24,"e":28,"text":"Música ambiente (sistema central)\n+\nAlmoço"},{"s":29,"e":35,"text":"Presença na capela"},{"s":36,"e":37,"text":"Retirada dos equipamentos"},{"s":38,"e":47,"text":"Deslocamento"},{"s":48,"e":51,"text":"Passagem de som na igreja"},{"s":52,"e":55,"text":"Santa Missa"}],"missao":[{"s":40,"e":47,"text":"Encontro com os pais"},{"s":51,"e":55,"text":"Organizar as malas no salão de festas"}]}}},"teamColsFound":{"guardiao":6,"movimento":7,"providencia":8,"limpeza":9,"som":10,"missao":11}};
@@ -534,23 +628,79 @@ let activeDay = 'Sexta';
 let activeTeam = TEAMS[0];
 let showGen = true;
 let activePage = 'cronograma';
+let activeDocDay = 'Sexta';
 
 function setPage(pageKey) {
   activePage = pageKey;
-  const isCronograma = pageKey === 'cronograma';
-  const tabCron = document.getElementById('tabCronograma');
-  const tabAtv = document.getElementById('tabAtividades');
-  const pageCron = document.getElementById('pageCronograma');
-  const pageAtv = document.getElementById('pageAtividades');
+  const items = [
+    { key: 'cronograma', tab: 'tabCronograma', page: 'pageCronograma' },
+    { key: 'atividades', tab: 'tabAtividades', page: 'pageAtividades' },
+    { key: 'equipes', tab: 'tabEquipes', page: 'pageEquipes' },
+  ];
 
-  tabCron.classList.toggle('active', isCronograma);
-  tabAtv.classList.toggle('active', !isCronograma);
-  tabCron.setAttribute('aria-selected', isCronograma ? 'true' : 'false');
-  tabAtv.setAttribute('aria-selected', !isCronograma ? 'true' : 'false');
-  pageCron.classList.toggle('active', isCronograma);
-  pageAtv.classList.toggle('active', !isCronograma);
+  items.forEach(it => {
+    const isActive = it.key === pageKey;
+    const tab = document.getElementById(it.tab);
+    const page = document.getElementById(it.page);
+    tab.classList.toggle('active', isActive);
+    tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    page.classList.toggle('active', isActive);
+  });
 
-  if (!isCronograma) document.body.classList.remove('hide-general');
+  if (pageKey !== 'cronograma') document.body.classList.remove('hide-general');
+}
+
+function setDocDay(dayKey) {
+  activeDocDay = dayKey;
+  document.querySelectorAll('#docDayTabs .day-tab').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.docDay === dayKey);
+  });
+  document.querySelectorAll('.doc-day-block').forEach(el => {
+    el.classList.toggle('active', el.dataset.day === dayKey);
+  });
+}
+
+function buildDayLocationMap(dayKey) {
+  const dayData = (SCHEDULE.days || {})[dayKey];
+  if (!dayData || !dayData.rows || !dayData.rows.length) return {};
+  const rows = dayData.rows;
+  const n = rows.length;
+  const localCover = buildCoverText(dayData.local || [], n);
+  const map = {};
+  for (let i = 0; i < n; i++) {
+    const t = (rows[i].ini || '').trim();
+    const loc = (localCover[i] || '').trim();
+    if (t && loc) map[t] = loc;
+  }
+  return map;
+}
+
+function applyDocLocations() {
+  const maps = {
+    'Sexta': buildDayLocationMap('Sexta'),
+    'Sábado': buildDayLocationMap('Sábado'),
+    'Domingo': buildDayLocationMap('Domingo'),
+  };
+
+  document.querySelectorAll('.doc-day-block[data-day]').forEach(block => {
+    const day = block.dataset.day;
+    const locMap = maps[day] || {};
+    block.querySelectorAll('.doc-card').forEach(card => {
+      const timeEl = card.querySelector('.doc-time');
+      if (!timeEl) return;
+      const m = (timeEl.textContent || '').trim().match(/(\d{2}:\d{2})/);
+      const start = m ? m[1] : '';
+      const loc = start ? (locMap[start] || '') : '';
+
+      let meta = card.querySelector('.doc-meta');
+      if (!meta) {
+        meta = document.createElement('div');
+        meta.className = 'doc-meta';
+        timeEl.insertAdjacentElement('afterend', meta);
+      }
+      meta.innerHTML = loc ? `<span class="tag">📍 ${loc}</span>` : '';
+    });
+  });
 }
 
 function hexRgba(h, a) {
@@ -640,57 +790,6 @@ function render() {
   document.getElementById('statLast').textContent = teamBlocks.length ? (rows[teamBlocks[teamBlocks.length - 1].e].fim || rows[teamBlocks[teamBlocks.length - 1].e].ini) : '—';
   const sn = document.getElementById('statName'); sn.textContent = activeTeam.label; sn.style.color = activeTeam.color;
 
-  const isMobile = window.matchMedia('(max-width: 720px)').matches;
-  if (isMobile) {
-    const genCover = buildCoverText(generalBlocks, n);
-    const teamCover = buildCoverText(teamBlocks, n);
-    const genBounds = buildCoverBounds(genCover);
-    const teamBounds = buildCoverBounds(teamCover);
-
-    for (let i = 0; i < n; i++) {
-      const tr = document.createElement('tr');
-
-      const tdTime = document.createElement('td');
-      tdTime.className = 'time-cell col-time';
-      tdTime.innerHTML = `<div class="time-stack"><strong>${rows[i].ini}</strong><span>${rows[i].fim || '—'}</span></div>`;
-      tr.appendChild(tdTime);
-
-      if (showGen) {
-        const tdGen = document.createElement('td');
-        tdGen.className = 'gcell col-general';
-        const loc = localCover[i];
-        const genRange = genCover[i] ? `${rows[genBounds.start[i]].ini}–${rows[genBounds.end[i]].fim || rows[genBounds.end[i]].ini || '—'}` : '';
-        let h = `<div class="block"><div class="block-head"><span class="block-time">${genRange}</span></div><div class="cell-main">${genCover[i] ? genCover[i] : '<span class=\"muted\">—</span>'}</div>`;
-        const meta = [];
-        if (loc) meta.push(`<span class="tag">📍 ${loc}</span>`);
-        if (meta.length) h += `<div class="cell-sub">${meta.join('')}</div>`;
-        h += `</div>`;
-        tdGen.innerHTML = h;
-        tr.appendChild(tdGen);
-      }
-
-      const tdTeam = document.createElement('td');
-      tdTeam.className = 'ecell col-team';
-      const mark = document.createElement('div');
-      mark.className = 'team-mark block';
-      mark.style.borderLeftColor = activeTeam.color;
-      mark.style.background = hexRgba(activeTeam.color, 0.045);
-
-      const loc = localCover[i];
-      const teamRange = teamCover[i] ? `${rows[teamBounds.start[i]].ini}–${rows[teamBounds.end[i]].fim || rows[teamBounds.end[i]].ini || '—'}` : '';
-      let h = `<div class="block-head"><span class="block-time">${teamRange}</span></div><div class="cell-main" style="color:${activeTeam.color}">${teamCover[i] ? teamCover[i] : '<span class=\"muted\">—</span>'}</div>`;
-      const meta = [];
-      if (loc) meta.push(`<span class="tag">📍 ${loc}</span>`);
-      if (meta.length) h += `<div class="cell-sub">${meta.join('')}</div>`;
-      mark.innerHTML = h;
-      tdTeam.appendChild(mark);
-      tr.appendChild(tdTeam);
-
-      tbody.appendChild(tr);
-    }
-    return;
-  }
-
   const genIdx = buildBlockIndex(generalBlocks, n);
   const teamIdx = buildBlockIndex(teamBlocks, n);
 
@@ -741,12 +840,8 @@ function render() {
         mark.style.borderLeftColor = activeTeam.color;
         mark.style.background = hexRgba(activeTeam.color, 0.045);
 
-        const loc = localCover[b.s];
         const range = `${rows[b.s].ini}–${rows[b.e].fim || rows[b.e].ini || '—'}`;
         let h = `<div class="block-head"><span class="block-time">${range}</span></div><div class="cell-main" style="color:${activeTeam.color}">${b.text ? b.text : '<span class=\"muted\">—</span>'}</div>`;
-        const meta = [];
-        if (loc) meta.push(`<span class="tag">📍 ${loc}</span>`);
-        if (meta.length) h += `<div class="cell-sub">${meta.join('')}</div>`;
         mark.innerHTML = h;
         tdTeam.appendChild(mark);
       } else {
@@ -789,17 +884,16 @@ document.getElementById('btnHide').onclick = () => {
 
 document.getElementById('tabCronograma').onclick = () => setPage('cronograma');
 document.getElementById('tabAtividades').onclick = () => setPage('atividades');
+document.getElementById('tabEquipes').onclick = () => setPage('equipes');
 
-let lastMobile = window.matchMedia('(max-width: 720px)').matches;
-window.addEventListener('resize', () => {
-  const now = window.matchMedia('(max-width: 720px)').matches;
-  if (now !== lastMobile) {
-    lastMobile = now;
-    render();
-  }
+document.querySelectorAll('#docDayTabs .day-tab').forEach(btn => {
+  btn.onclick = () => setDocDay(btn.dataset.docDay);
 });
+setDocDay(activeDocDay);
+applyDocLocations();
 
-setPage((location.hash || '').toLowerCase() === '#atividades' ? 'atividades' : 'cronograma');
+const hash = (location.hash || '').toLowerCase();
+setPage(hash === '#equipes' ? 'equipes' : (hash === '#atividades' ? 'atividades' : 'cronograma'));
 render();
 </script>
 </body>

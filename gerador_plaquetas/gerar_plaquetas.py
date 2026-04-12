@@ -14,6 +14,7 @@ Colunas obrigatórias no Excel:
 """
 
 import sys
+import re
 import os
 from pathlib import Path
 from collections import defaultdict
@@ -46,7 +47,7 @@ TEXT_AREA = {
         "y_end":   0.820,
     },
     "servo": {
-        "x_start": 0.430,
+        "x_start": 0.350,
         "x_end":   0.980,
         "y_start": 0.195,
         "y_end":   0.820,
@@ -83,7 +84,9 @@ def load_data(excel_path: str) -> pd.DataFrame:
     df = df.dropna(subset=["Nome", "Quarto"])
     df["Nome"]   = df["Nome"].astype(str).str.strip()
     df["Tipo"]   = df["Tipo"].astype(str).str.strip().str.lower()
-    df["Quarto"] = df["Quarto"].astype(str).str.strip()
+    # Converte para string preservando sufixos como "54S";
+    # remove ".0" que o pandas adiciona ao ler números do Excel
+    df["Quarto"] = df["Quarto"].astype(str).str.strip().str.replace(r'\.0$', '', regex=True)
     if "Equipe" in df.columns:
         df["Equipe"] = df["Equipe"].astype(str).str.strip()
     else:
@@ -165,7 +168,13 @@ def generate_pdf(rooms: dict, output_path: str):
 
     # Coleta todas as plaquetas a gerar: (quarto, tipo, nomes_list)
     placards = []
-    for quarto in sorted(rooms.keys(), key=lambda q: (q.replace("S","").zfill(4))):
+    def room_sort_key(q):
+        # Separa parte numérica do sufixo (ex: "54S" -> (54, "S"), "10" -> (10, ""))
+        m = re.match(r'^(\d+)(.*)', q.strip())
+        if m:
+            return (int(m.group(1)), m.group(2).upper())
+        return (9999, q.upper())
+    for quarto in sorted(rooms.keys(), key=room_sort_key):
         for tipo in ("crismando", "servo"):
             pessoas = rooms[quarto][tipo]
             if not pessoas:
